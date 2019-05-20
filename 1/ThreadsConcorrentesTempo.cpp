@@ -22,6 +22,8 @@ int main(int argc, char *argv[]) {
     int i;
     pthread_t pthreads[30000];
 
+    printf("Threads Concorrentes \n");
+    
     clock_t clock1;
     clock1 = clock();
     for (i = 0; i < 3; i++) {
@@ -33,7 +35,6 @@ int main(int argc, char *argv[]) {
     }
 
     printf("Tempo para 3 threads: %fms\n", ((clock() - clock1) / (double) CLOCKS_PER_SEC));
-    printf("\n\n");
 
     clock_t clock2;
     clock2 = clock();
@@ -59,7 +60,6 @@ int main(int argc, char *argv[]) {
     }
 
     printf("Tempo para 300 threads: %fms\n", ((clock() - clock3) / (double) CLOCKS_PER_SEC));
-    printf("\n\n");
 
     clock_t clock4;
     clock4 = clock();
@@ -72,20 +72,6 @@ int main(int argc, char *argv[]) {
     }
 
     printf("Tempo para 3000 threads: %fms\n", ((clock() - clock4) / (double) CLOCKS_PER_SEC));
-    printf("\n\n");
-
-    clock_t clock5;
-    clock5 = clock();
-    for (i = 0; i < 30000; i++) {
-        pthread_create(&pthreads[i], NULL, &run, (void*) i);
-    }
-
-    for (i = 0; i < 30000; i++) {
-        pthread_join(pthreads[i], NULL);
-    }
-
-    printf("Tempo para 30000 threads: %fms\n", ((clock() - clock5) / (double) CLOCKS_PER_SEC));
-    printf("\n\n");
 
     return 0;
 }
