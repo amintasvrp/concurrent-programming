@@ -73,7 +73,7 @@ int main(int argc, char *argv[]){
         pthread_join(pthreads[i], NULL);
     }
 
-    printf("Tempo para 3 threads: %fms\n", ((clock() - clock4) / (double) CLOCKS_PER_SEC));
+    printf("Tempo para 3000 threads: %fms\n", ((clock() - clock4) / (double) CLOCKS_PER_SEC));
 
     return 0;
 }
