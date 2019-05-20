@@ -5,122 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-
-class DoCHMOperations implements Runnable {
-    ConcurrentHashMap cmap;
-    int totalInsertOperations;
-    int totalDeleteOperations;
-    int totalReadOperations;
-    
-    Integer insertKeys[];
-    Integer insertValues[];
-    Integer deleteKeys[];
-    Integer getKeys[];
-
-
-    public DoCHMOperations(ConcurrentHashMap cmapInstance,
-                         int totalInsertOperations,
-                         int totalDeleteOperations,
-                         int totalReadOperations,
-                         Integer insertKeys[],
-                         Integer insertValues[],
-                         Integer deleteKeys[],
-                         Integer getKeys[]) {
-        this.cmap = cmapInstance;
-        this.totalInsertOperations = totalInsertOperations;
-        this.totalDeleteOperations = totalDeleteOperations;
-        this.totalReadOperations = totalReadOperations;
-        this.insertKeys = insertKeys;
-        this.deleteKeys = deleteKeys;
-        this.getKeys = getKeys;
-        this.insertValues = insertValues;
-    }
-
-    public void run() {
-        int maxOp = Math.max(this.totalInsertOperations,
-                             Math.max(this.totalDeleteOperations, this.totalReadOperations));
-        
-        int inserCount = 0;
-        int deleteCount = 0;
-        int readCount = 0;
-
-        for (int i = 0; i < maxOp; i++) {
-            if (inserCount < this.totalInsertOperations) {
-                this.cmap.put(this.insertKeys[i], this.insertValues[i]);
-                inserCount++;
-            }
-            
-            if (deleteCount < this.totalDeleteOperations) {
-                this.cmap.remove(this.deleteKeys[i]);
-                deleteCount++;
-            }
-
-            if (readCount < this.totalReadOperations) {
-                this.cmap.get(getKeys[i]);
-                readCount++;
-            }
-        }
-    }
-}
-
-
-class DoSMOperations implements Runnable {
-    Map smap;
-    int totalInsertOperations;
-    int totalDeleteOperations;
-    int totalReadOperations;
-    
-    Integer insertKeys[];
-    Integer insertValues[];
-    Integer deleteKeys[];
-    Integer getKeys[];
-
-
-    public DoSMOperations(Map smapInstance,
-                         int totalInsertOperations,
-                         int totalDeleteOperations,
-                         int totalReadOperations,
-                         Integer insertKeys[],
-                         Integer insertValues[],
-                         Integer deleteKeys[],
-                         Integer getKeys[]) {
-        this.smap = smapInstance;
-        this.totalInsertOperations = totalInsertOperations;
-        this.totalDeleteOperations = totalDeleteOperations;
-        this.totalReadOperations = totalReadOperations;
-        this.insertKeys = insertKeys;
-        this.deleteKeys = deleteKeys;
-        this.getKeys = getKeys;
-        this.insertValues = insertValues;
-    }
-
-    public void run() {
-        int maxOp = Math.max(this.totalInsertOperations,
-                             Math.max(this.totalDeleteOperations, this.totalReadOperations));
-        
-        int inserCount = 0;
-        int deleteCount = 0;
-        int readCount = 0;
-
-        for (int i = 0; i < maxOp; i++) {
-            if (inserCount < this.totalInsertOperations) {
-                this.smap.put(this.insertKeys[i], this.insertValues[i]);
-                inserCount++;
-            }
-            
-            if (deleteCount < this.totalDeleteOperations) {
-                this.smap.remove(this.deleteKeys[i]);
-                deleteCount++;
-            }
-
-            if (readCount < this.totalReadOperations) {
-                this.smap.get(getKeys[i]);
-                readCount++;
-            }
-        }
-    }
-}
-
 public class Q05A {
 
     private static void makeRandomVector(Integer[] emptyVector) {
@@ -131,7 +15,7 @@ public class Q05A {
 		}
     }
 
-    private static void simpleInsertTestWithoutConcurrency(int testSize) {
+    private static void simpleInsertTest(int testSize, int threads) {
         // Count time vars
         long startTime;
 		long endTime;
@@ -148,10 +32,19 @@ public class Q05A {
         ConcurrentHashMap cmap = new ConcurrentHashMap();
         Map smap = Collections.synchronizedMap(new HashMap());
 
-        //Do ConcurrentHashMap test
+        // Do ConcurrentHashMap test
         startTime = System.nanoTime();
-        for (int i = 0; i < testSize; i++) {
-            cmap.put(keys[i], values[i]);
+        for (int i = 0; i < threads; i++) {
+            DoCHMOperations op = new DoCHMOperations(cmap,
+                                                     i,
+                                                     testSize,
+                                                     0,
+                                                     0,
+                                                     keys,
+                                                     values,
+                                                     null,
+                                                     null);
+            op.run();
         }
 
         endTime = System.nanoTime();
@@ -161,8 +54,17 @@ public class Q05A {
 
         //Do synchronizedhMap test
         startTime = System.nanoTime();
-        for (int i = 0; i < testSize; i++) {
-            smap.put(keys[i], values[i]);
+        for (int i = 0; i < threads; i++) {
+            DoSMOperations op = new DoSMOperations(smap,
+                                                   i,
+                                                   testSize,
+                                                   0,
+                                                   0,
+                                                   keys,
+                                                   values,
+                                                   null,
+                                                   null);
+            op.run();
         }
 
         endTime = System.nanoTime();
@@ -172,14 +74,14 @@ public class Q05A {
     }
 
     public static void main(String[] args) {
-        System.out.println("INSERT TEST WITH SIZE 500");
-        simpleInsertTestWithoutConcurrency(500);
-        System.out.println("INSERT TEST WITH SIZE 5000");
-        simpleInsertTestWithoutConcurrency(5000);
-        System.out.println("INSERT TEST WITH SIZE 50000");
-        simpleInsertTestWithoutConcurrency(50000);
-        System.out.println("INSERT TEST WITH SIZE 500000");
-        simpleInsertTestWithoutConcurrency(500000);
+        System.out.println("INSERT TEST WITH 2 T");
+        simpleInsertTest(50000, 2);
+        System.out.println("INSERT TEST WITH 3 T");
+        simpleInsertTest(50000, 3);
+        System.out.println("INSERT TEST WITH 4 T");
+        simpleInsertTest(50000, 4);
+        System.out.println("INSERT TEST WITH 5 T");
+        simpleInsertTest(50000, 5);
     }
 }
 
