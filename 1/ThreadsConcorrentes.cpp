@@ -15,6 +15,7 @@ void* run(void* args){
     }
 
     printf("my_id= %ld j=%ld counter=%ld \n", my_id,j, counter);
+    pthread_exit(reinterpret_cast<void *>(my_id));
 }
 
 int main(int argc, char *argv[]){

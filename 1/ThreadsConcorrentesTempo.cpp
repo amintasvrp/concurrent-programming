@@ -15,15 +15,16 @@ void* run(void* args){
         counter++;
     }
 
+    pthread_exit(reinterpret_cast<void *>(my_id));
    // printf("my_id= %ld j=%ld counter=%ld \n", my_id,j, counter);
 }
 
 int main(int argc, char *argv[]) {
     int i;
-    pthread_t pthreads[30000];
+    pthread_t pthreads[3000];
 
     printf("Threads Concorrentes \n");
-    
+
     clock_t clock1;
     clock1 = clock();
     for (i = 0; i < 3; i++) {
@@ -47,7 +48,6 @@ int main(int argc, char *argv[]) {
     }
 
     printf("Tempo para 30 threads: %fms\n", ((clock() - clock2) / (double) CLOCKS_PER_SEC));
-    printf("\n\n");
 
     clock_t clock3;
     clock3 = clock();
