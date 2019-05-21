@@ -1,5 +1,8 @@
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
+
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,27 +11,35 @@ import java.util.concurrent.CountDownLatch;
 
 public class Q05A {
 
-    private static void makeRandomVector(Integer[] emptyVector) {
-		Random rand = new Random();
+    private static Integer[] makeRandomVector(int size) {
+        Random rand = new Random();
+        Integer[] emptyVector = new Integer[size];
 		
-		for (int i = 0 ; i < emptyVector.length ; i++) {
+		for (int i = 0 ; i < size ; i++) {
 			emptyVector[i] = rand.nextInt(100);
-		}
+        }
+        
+        return emptyVector;
     }
 
-    private static void simpleCHMInsertTest(int testSize, int threads) {
+    private static List<Integer[]> generateExpVectors(int nthreads, int sizebythread) {
+
+        List<Integer[]> vectors = new ArrayList<Integer[]>();
+        for (int i = 0; i < nthreads; i++) {
+            Integer[] partition = makeRandomVector(sizebythread);
+            vectors.add(partition);
+        }
+
+        return vectors;
+    }
+
+    private static void simpleCHMInsertTest(int testSize, int threads, List<Integer[]> keys, 
+                                            List<Integer[]> values) {
         // Count time vars
         long startTime;
 		long endTime;
         long runtime;
         CountDownLatch countDownLatch;
-
-        // Load keys and values
-        Integer keys[] = new Integer[testSize];
-        Integer values[] = new Integer[testSize];
-
-        makeRandomVector(keys);
-        makeRandomVector(values);
 
         // Load Maps
         ConcurrentHashMap cmap = new ConcurrentHashMap();
@@ -44,8 +55,8 @@ public class Q05A {
                                                      testSize,
                                                      0,
                                                      0,
-                                                     keys,
-                                                     values,
+                                                     keys.get(i),
+                                                     values.get(i),
                                                      null,
                                                      null);
             Thread t = new Thread(op);
@@ -64,19 +75,13 @@ public class Q05A {
         System.out.println("ConcurrentHashMap runtime - " + runtime);
     }
 
-    private static void simpleSMInsertTest(int testSize, int threads) {
+    private static void simpleSMInsertTest(int testSize, int threads, List<Integer[]> keys, 
+                                           List<Integer[]> values) {
         // Count time vars
         long startTime;
 		long endTime;
         long runtime;
         CountDownLatch countDownLatch;
-
-        // Load keys and values
-        Integer keys[] = new Integer[testSize];
-        Integer values[] = new Integer[testSize];
-
-        makeRandomVector(keys);
-        makeRandomVector(values);
 
         // Load Maps
         ConcurrentHashMap cmap = new ConcurrentHashMap();
@@ -92,8 +97,8 @@ public class Q05A {
                                                      testSize,
                                                      0,
                                                      0,
-                                                     keys,
-                                                     values,
+                                                     keys.get(i),
+                                                     values.get(i),
                                                      null,
                                                      null);
             Thread t = new Thread(op);
@@ -113,10 +118,12 @@ public class Q05A {
     }
 
     public static void main(String[] args) {
-        System.out.println("INSERT CHM TEST WITH 12 T");
-        simpleCHMInsertTest(50000000, 12);
+        List<Integer[]> keys = generateExpVectors(12, 5000000);
+        List<Integer[]> values = generateExpVectors(12, 5000000);
         System.out.println("INSERT SM TEST WITH 12 T");
-        simpleSMInsertTest(50000000, 12);
+        simpleSMInsertTest(5000000, 12, keys, values);
+        System.out.println("INSERT CHM TEST WITH 12 T");
+        simpleCHMInsertTest(5000000, 12, keys, values);
     }
 }
 

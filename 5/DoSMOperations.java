@@ -3,8 +3,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 import java.util.concurrent.CountDownLatch;
+import java.util.Random;
 
 public class DoSMOperations implements Runnable {
     Map smap;
@@ -67,7 +67,7 @@ public class DoSMOperations implements Runnable {
                 readCount++;
             }
         }
-        countDownLatch.countDown();
         System.out.println("FINISH SM Thread " + this.threadId);
+        countDownLatch.countDown();
     }
 }
