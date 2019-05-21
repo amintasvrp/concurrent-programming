@@ -4,9 +4,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.CountDownLatch;
 
 public class DoSMOperations implements Runnable {
     Map smap;
+    CountDownLatch countDownLatch;
+
     int threadId;
     int totalInsertOperations;
     int totalDeleteOperations;
@@ -19,6 +22,7 @@ public class DoSMOperations implements Runnable {
 
 
     public DoSMOperations(Map smapInstance,
+                         CountDownLatch countDownLatch,
                          int threadId,
                          int totalInsertOperations,
                          int totalDeleteOperations,
@@ -28,6 +32,7 @@ public class DoSMOperations implements Runnable {
                          Integer deleteKeys[],
                          Integer getKeys[]) {
         this.smap = smapInstance;
+        this.countDownLatch = countDownLatch;
         this.threadId = threadId;
         this.totalInsertOperations = totalInsertOperations;
         this.totalDeleteOperations = totalDeleteOperations;
@@ -62,6 +67,7 @@ public class DoSMOperations implements Runnable {
                 readCount++;
             }
         }
+        countDownLatch.countDown();
         System.out.println("FINISH SM Thread " + this.threadId);
     }
 }

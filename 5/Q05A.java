@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.CountDownLatch;
 
 public class Q05A {
 
@@ -15,11 +16,12 @@ public class Q05A {
 		}
     }
 
-    private static void simpleInsertTest(int testSize, int threads) {
+    private static void simpleCHMInsertTest(int testSize, int threads) {
         // Count time vars
         long startTime;
 		long endTime;
         long runtime;
+        CountDownLatch countDownLatch;
 
         // Load keys and values
         Integer keys[] = new Integer[testSize];
@@ -33,9 +35,11 @@ public class Q05A {
         Map smap = Collections.synchronizedMap(new HashMap());
 
         // Do ConcurrentHashMap test
+        countDownLatch = new CountDownLatch(threads);        
         startTime = System.nanoTime();
         for (int i = 0; i < threads; i++) {
             DoCHMOperations op = new DoCHMOperations(cmap,
+                                                     countDownLatch,
                                                      i,
                                                      testSize,
                                                      0,
@@ -44,44 +48,75 @@ public class Q05A {
                                                      values,
                                                      null,
                                                      null);
-            op.run();
+            Thread t = new Thread(op);
+            t.start();
         }
 
+        try {
+            countDownLatch.await();
+        } catch(InterruptedException e) {
+            System.out.println("Erro ao executar teste: " + e.getMessage());
+        }
+        
         endTime = System.nanoTime();
         runtime = endTime - startTime;
 
         System.out.println("ConcurrentHashMap runtime - " + runtime);
+    }
 
-        //Do synchronizedhMap test
+    private static void simpleSMInsertTest(int testSize, int threads) {
+        // Count time vars
+        long startTime;
+		long endTime;
+        long runtime;
+        CountDownLatch countDownLatch;
+
+        // Load keys and values
+        Integer keys[] = new Integer[testSize];
+        Integer values[] = new Integer[testSize];
+
+        makeRandomVector(keys);
+        makeRandomVector(values);
+
+        // Load Maps
+        ConcurrentHashMap cmap = new ConcurrentHashMap();
+        Map smap = Collections.synchronizedMap(new HashMap());
+
+        // Do SynchronizedMap test
+        countDownLatch = new CountDownLatch(threads);        
         startTime = System.nanoTime();
         for (int i = 0; i < threads; i++) {
-            DoSMOperations op = new DoSMOperations(smap,
-                                                   i,
-                                                   testSize,
-                                                   0,
-                                                   0,
-                                                   keys,
-                                                   values,
-                                                   null,
-                                                   null);
-            op.run();
+            DoSMOperations op = new DoSMOperations(cmap,
+                                                     countDownLatch,
+                                                     i,
+                                                     testSize,
+                                                     0,
+                                                     0,
+                                                     keys,
+                                                     values,
+                                                     null,
+                                                     null);
+            Thread t = new Thread(op);
+            t.start();
         }
 
+        try {
+            countDownLatch.await();
+        } catch(InterruptedException e) {
+            System.out.println("Erro ao executar teste: " + e.getMessage());
+        }
+        
         endTime = System.nanoTime();
         runtime = endTime - startTime;
 
-        System.out.println("synchronizedhMap runtime - " + runtime);
+        System.out.println("SynchronizedMap runtime - " + runtime);
     }
 
     public static void main(String[] args) {
-        System.out.println("INSERT TEST WITH 2 T");
-        simpleInsertTest(50000, 2);
-        System.out.println("INSERT TEST WITH 3 T");
-        simpleInsertTest(50000, 3);
-        System.out.println("INSERT TEST WITH 4 T");
-        simpleInsertTest(50000, 4);
-        System.out.println("INSERT TEST WITH 5 T");
-        simpleInsertTest(50000, 5);
+        System.out.println("INSERT CHM TEST WITH 12 T");
+        simpleCHMInsertTest(50000000, 12);
+        System.out.println("INSERT SM TEST WITH 12 T");
+        simpleSMInsertTest(50000000, 12);
     }
 }
 

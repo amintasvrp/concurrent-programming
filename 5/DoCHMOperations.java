@@ -4,9 +4,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.CountDownLatch;
 
 public class DoCHMOperations implements Runnable {
     ConcurrentHashMap cmap;
+    CountDownLatch countDownLatch;
+
     int threadId;
     int totalInsertOperations;
     int totalDeleteOperations;
@@ -19,6 +22,7 @@ public class DoCHMOperations implements Runnable {
 
 
     public DoCHMOperations(ConcurrentHashMap cmapInstance,
+                         CountDownLatch countDownLatch,
                          int threadId,
                          int totalInsertOperations,
                          int totalDeleteOperations,
@@ -28,6 +32,7 @@ public class DoCHMOperations implements Runnable {
                          Integer deleteKeys[],
                          Integer getKeys[]) {
         this.cmap = cmapInstance;
+        this.countDownLatch = countDownLatch;
         this.threadId = threadId;
         this.totalInsertOperations = totalInsertOperations;
         this.totalDeleteOperations = totalDeleteOperations;
@@ -63,5 +68,6 @@ public class DoCHMOperations implements Runnable {
             }
         }
         System.out.println("FINISH CHM Thread " + this.threadId);
+        countDownLatch.countDown();
     }
 }
