@@ -12,7 +12,15 @@
 * Já o código original encontra-se [aqui](https://github.com/dalesEwerton/PC-Lista1/blob/master/1/ThreadsConcorrentes.cpp).
 Foram feitas algumas pequenas mudanças no código disponibilizado pelo professor, para que este executasse nas máquinas dos alunos. Porém, o fluxo e execução original não foram alterados.
 
+
+#### Por que as threads sequenciais tiveram um tempo de execução menor?
 ![Tempo1](./Images/TempoThreadsConcorrentes.png)
+Imagem 01 - Compilação e tempo de execução das threads concorrentes
 ![Tempo2](./Images/TempoThreadsSequenciais.png)
+Imagem 02 - Compilação e tempo de execução das threads sequenciais
+
+* Um possível fator que influencia no tempo de execução é que as threads que executam de forma concorrente ficam disputando a CPU entre si, ou seja, elas não completam o que precisam fazer, dado que passam apenas uma quantidade de tempo na CPU e quando este tempo acaba, outra thread entra no lugar, fazendo com que a execução da anterior seja interrompida e necessite esperar que outra thread perca a CPU para ter uma chance de entrar lá novamente. Portanto, ocorrem muitas trocas de contexto dentro deste problema, que consomem tempo, além do tempo que a thread precisa esperar para executar. 
+* Já na execução de forma sequencial, não há tantas trocas de contexto e, como ocorre exclusão mútua, cada thread precisa esperar a que está na vez executar todo o programa, para, após isso, entrar na CPU e executar o que precisa ser executado. Ou seja, como não há tantas trocas de contexto nem interrupções na execução e tantas esperas para entrar na CPU, a execução de forma sequencial torna-se mais rápida.
+* Um outro fator que pode influenciar no tempo é que o tempo gasto fazendo operações em cada iteração no programa é muito pequeno e há uma sobrecarga bastante significativa envolvida na criação e no gerenciamento de várias threads. No caso, o uso de threads só aumenta a eficiência quando cada iteração é suficientemente cara em termos de tempo do processador.
 
 
