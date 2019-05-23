@@ -5,5 +5,7 @@
 
 ![Questao1](https://raw.githubusercontent.com/dalesEwerton/PC-Lista1/master/assets/img/Q1.png?token=AE7ADSHJVMFHIVFUFRNSJSK44ANSM)
 
+![Tempo1](./Images/TempoThreadsConcorrentes.png)
+
 
 
