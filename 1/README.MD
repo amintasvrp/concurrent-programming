@@ -15,8 +15,10 @@ Foram feitas algumas pequenas mudanças no código disponibilizado pelo professo
 
 #### Por que as threads sequenciais tiveram um tempo de execução menor?
 ![Tempo1](./Images/TempoThreadsConcorrentes.png)
+
 Imagem 01 - Compilação e tempo de execução das threads concorrentes
 ![Tempo2](./Images/TempoThreadsSequenciais.png)
+
 Imagem 02 - Compilação e tempo de execução das threads sequenciais
 
 * Um possível fator que influencia no tempo de execução é que as threads que executam de forma concorrente ficam disputando a CPU entre si, ou seja, elas não completam o que precisam fazer, dado que passam apenas uma quantidade de tempo na CPU e quando este tempo acaba, outra thread entra no lugar, fazendo com que a execução da anterior seja interrompida e necessite esperar que outra thread perca a CPU para ter uma chance de entrar lá novamente. Portanto, ocorrem muitas trocas de contexto dentro deste problema, que consomem tempo, além do tempo que a thread precisa esperar para executar. 
