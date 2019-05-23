@@ -17,6 +17,7 @@ Foram feitas algumas pequenas mudanças no código disponibilizado pelo professo
 ![Tempo1](./Images/TempoThreadsConcorrentes.png)
 
 Imagem 01 - Compilação e tempo de execução das threads concorrentes
+
 ![Tempo2](./Images/TempoThreadsSequenciais.png)
 
 Imagem 02 - Compilação e tempo de execução das threads sequenciais
