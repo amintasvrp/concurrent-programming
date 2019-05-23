@@ -3,6 +3,7 @@
 #include <pthread.h>
 #include <mutex>
 #include <time.h>
+#include <fstream>
 
 using namespace std;
 
@@ -27,54 +28,31 @@ void* run(void* args){
 
 int main(int argc, char *argv[]){
     int i;
-    pthread_t pthreads[3000];
+    int k = 1;
+    pthread_t pthreads[100];
 
     printf("Threads Sequenciais \n");
 
-    clock_t clock1;
-    clock1 = clock();
-    for (i = 0; i < 3; i++) {
-        pthread_create(&pthreads[i], NULL, &run, (void*) i);
+    ofstream file;
+    file.open ("seqTime.txt");
+    file << "threads,seqTime" << "\n";
+  
+    while(k < 101){
+        clock_t clock1;
+        clock1 = clock();
+        for(i = 0; i < k; i++){
+            pthread_create(&pthreads[i], NULL, &run, (void*) i);
+        }
+
+        for (i = 0; i < k; i++) {
+            pthread_join(pthreads[i], NULL);
+        }
+        printf("Tempo para %d threads: %fms\n", k, ((clock() - clock1) / (double) CLOCKS_PER_SEC));
+        file << k << "," << (clock() - clock1) / (double) CLOCKS_PER_SEC << "\n";
+        k++;
     }
 
-    for (i = 0; i < 3; i++) {
-        pthread_join(pthreads[i], NULL);
-    }
-    printf("Tempo para 3 threads: %fms\n", ((clock() - clock1) / (double) CLOCKS_PER_SEC));
-
-    clock_t clock2;
-    clock2 = clock();
-    for (i = 0; i < 30; i++) {
-        pthread_create(&pthreads[i], NULL, &run, (void*) i);
-    }
-
-    for (i = 0; i < 30; i++) {
-        pthread_join(pthreads[i], NULL);
-    }
-    printf("Tempo para 30 threads: %fms\n", ((clock() - clock2) / (double) CLOCKS_PER_SEC));
-
-    clock_t clock3;
-    clock3 = clock();
-    for (i = 0; i < 300; i++) {
-        pthread_create(&pthreads[i], NULL, &run, (void*) i);
-    }
-
-    for (i = 0; i < 300; i++) {
-        pthread_join(pthreads[i], NULL);
-    }
-    printf("Tempo para 300 threads: %fms\n", ((clock() - clock3) / (double) CLOCKS_PER_SEC));
-
-    clock_t clock4;
-    clock4 = clock();
-    for (i = 0; i < 3000; i++) {
-        pthread_create(&pthreads[i], NULL, &run, (void*) i);
-    }
-
-    for (i = 0; i < 3000; i++) {
-        pthread_join(pthreads[i], NULL);
-    }
-
-    printf("Tempo para 3000 threads: %fms\n", ((clock() - clock4) / (double) CLOCKS_PER_SEC));
+    file.close();
 
     return 0;
 }
