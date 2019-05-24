@@ -1,5 +1,4 @@
-#include <cstdio>
-#include <iostream>
+#include <stdio.h>
 #include <pthread.h>
 
 long int counter = 0;
@@ -15,7 +14,7 @@ void* run(void* args){
     }
 
     printf("my_id= %ld j=%ld counter=%ld \n", my_id,j, counter);
-    pthread_exit(reinterpret_cast<void *>(my_id));
+    pthread_exit(NULL);
 }
 
 int main(int argc, char *argv[]){

@@ -1,12 +1,8 @@
-#include <cstdio>
-#include <iostream>
+#include <stdio.h>
 #include <pthread.h>
-#include <mutex>
-
-using namespace std;
 
 long int counter = 0;
-mutex mtx;
+pthread_mutex_t lock;
 
 void* run(void* args){
     long int my_id;
@@ -14,14 +10,15 @@ void* run(void* args){
 
     my_id = (long int) args;
 
-    mtx.lock();
+    pthread_mutex_init(&lock, NULL);
+    pthread_mutex_lock(&lock);
     for (j = 0; j < 1e7; j++) {
         counter++;
     }
-    mtx.unlock();
+    pthread_mutex_unlock(&lock);
 
     printf("my_id= %ld j=%ld counter=%ld\n", my_id,j, counter);
-    pthread_exit(reinterpret_cast<void *>(my_id));
+    pthread_exit(NULL);
 }
 
 int main(int argc, char *argv[]){
