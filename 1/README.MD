@@ -32,4 +32,14 @@ Imagem 03 - Gráfico comparando o tempo de execução das threads concorrentes c
 * Já na execução de forma sequencial, não há tantas trocas de contexto e, como ocorre exclusão mútua, cada thread precisa esperar a que está na vez executar todo o programa, para, após isso, entrar na CPU e executar o que precisa ser executado. Ou seja, como não há tantas trocas de contexto nem interrupções na execução e tantas esperas para entrar na CPU, a execução de forma sequencial torna-se mais rápida.
 * Um outro fator que pode influenciar no tempo é que o tempo gasto fazendo operações em cada iteração no programa é muito pequeno e há uma sobrecarga bastante significativa envolvida na criação e no gerenciamento de várias threads. No caso, o uso de threads só aumenta a eficiência quando cada iteração é suficientemente cara em termos de tempo do processador.
 
+Buscando expandir a análise dos tempos de execução, executamos o comando _time_ do terminal na execução de ambas implementações. O resultado segue abaixo:
+
+![Tempo4](./Images/SysExecTime.png)
+
+Imagem 04 - Resultado do comando time na execução das implementações
+
+* Com isso, temos que, o tempo _real_ refere-se ao tempo que foi gasto do início ao fim da chamada, incluindo o tempo usado por outros processos e o tempo que o processo gasta bloqueado. Já o tempo _user_ é o tempo real da CPU usado na execução do processo. Para saber o tempo total gasto pela CPU devemos somar o tempo _user_ com o tempo _sys_.
+* No caso das threads concorrentes, o tempo da CPU é bem maior do que o tempo real, ou seja, o gasto de CPU foi bem maior. Isto poderia ser causado pelo já foi explicitado aqui, dado que com o uso threads concorrentes ocasionam condições de corrida e várias trocas de contexto, que dão origem a operações custosas e o programa inteiro demora mais para terminar a execução.
+* Já nas threads sequenciais, vemos que o tempo _real_ é praticamente igual ao gasto pela CPU. Isto pode ser explicado pelo fato de que, quando uma thread entra na CPU, ela só sai de lá quando terminar sua execução, ou seja, salvo em condições de exceções e erros, não haverão condicões de corrida e consequentemente também não haverão muitas trocas de contexto, fazendo com que o tempo de processamento de fato seja mais rápido.
+
 
