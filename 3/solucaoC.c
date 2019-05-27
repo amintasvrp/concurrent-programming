@@ -7,35 +7,35 @@
 pthread_mutex_t mutex;
 pthread_cond_t cond;
 
-int request(){
-    int numberToSleep;
+void* request(){
+    long int numberToSleep;
 
     numberToSleep = rand() % 30;
 
-    printf("Tempo: %d\n", numberToSleep);
+    printf("Tempo: %ld\n", numberToSleep);
     fflush(stdout);
     sleep(numberToSleep);
     fflush(stdout);
     pthread_mutex_lock(&mutex);
-    printf("TERMINEI\nTempo: %d\n", numberToSleep);
-    pthread_cond_signal(&cond);
+    printf("TERMINEI\nTempo: %ld\n", numberToSleep);
     pthread_mutex_unlock(&mutex);
-    pthread_exit(NULL);
-    
-    return numberToSleep;
+    pthread_exit((void*) numberToSleep);
 }
 
-void gateway(int num_replicas){
+int gateway(int num_replicas) {
     pthread_t pthreads[num_replicas];
+    long int retorno;
 
     for (int i = 0; i < num_replicas; i++) {
         pthread_create(&pthreads[i], NULL, &request, NULL);
     }
 
     for (int i = 0; i < num_replicas; i++) {
-        pthread_join(pthreads[i], NULL);
+        pthread_join(pthreads[i], &retorno);
+        printf("%ld\n", (long int)retorno);
+        return retorno;
     }
-
+    return -1;
 }
 
 int main(int argc, char *argv[]){
