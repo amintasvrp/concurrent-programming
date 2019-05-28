@@ -1,8 +1,8 @@
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CountDownLatch;
 
-public class DoCHMOperations implements Runnable {
-    ConcurrentHashMap cmap;
+public class DoCOWALOperations implements Runnable {
+    CopyOnWriteArrayList clist;
     CountDownLatch countDownLatch;
 
     int threadId;
@@ -10,31 +10,28 @@ public class DoCHMOperations implements Runnable {
     int totalDeleteOperations;
     int totalReadOperations;
     
-    Integer insertKeys[];
     Integer insertValues[];
-    Integer deleteKeys[];
-    Integer getKeys[];
+    Integer deleteValues[];
+    Integer getIndex[];
 
 
-    public DoCHMOperations(ConcurrentHashMap cmapInstance,
+    public DoCOWALOperations(CopyOnWriteArrayList clistInstance,
                          CountDownLatch countDownLatch,
                          int threadId,
                          int totalInsertOperations,
                          int totalDeleteOperations,
                          int totalReadOperations,
-                         Integer insertKeys[],
                          Integer insertValues[],
-                         Integer deleteKeys[],
-                         Integer getKeys[]) {
-        this.cmap = cmapInstance;
+                         Integer deleteValues[],
+                         Integer getIndex[]) {
+        this.clist = clistInstance;
         this.countDownLatch = countDownLatch;
         this.threadId = threadId;
         this.totalInsertOperations = totalInsertOperations;
         this.totalDeleteOperations = totalDeleteOperations;
         this.totalReadOperations = totalReadOperations;
-        this.insertKeys = insertKeys;
-        this.deleteKeys = deleteKeys;
-        this.getKeys = getKeys;
+        this.deleteValues = deleteValues;
+        this.getIndex = getIndex;
         this.insertValues = insertValues;
     }
 
@@ -48,21 +45,21 @@ public class DoCHMOperations implements Runnable {
 
         for (int i = 0; i < maxOp; i++) {
             if (inserCount < this.totalInsertOperations) {
-                this.cmap.put(this.insertKeys[i], this.insertValues[i]);
+                this.clist.add(this.insertValues[i]);
                 inserCount++;
             }
             
             if (deleteCount < this.totalDeleteOperations) {
-                this.cmap.remove(this.deleteKeys[i]);
+                this.clist.remove(this.deleteValues[i]);
                 deleteCount++;
             }
 
             if (readCount < this.totalReadOperations) {
-                this.cmap.get(getKeys[i]);
+                this.clist.get(getIndex[i]);
                 readCount++;
             }
         }
-        System.out.println("FINISH CHM Thread " + this.threadId);
+        System.out.println("FINISH COWAL Thread " + this.threadId);
         countDownLatch.countDown();
     }
 }
