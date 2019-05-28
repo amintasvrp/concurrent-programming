@@ -33,6 +33,7 @@ int gateway(int num_replicas) {
     for (int i = 0; i < num_replicas; i++) {
         pthread_join(pthreads[i], NULL);
     }
+    
     printf("\nTempo Total: %d\n", total);
     return total;
 }
