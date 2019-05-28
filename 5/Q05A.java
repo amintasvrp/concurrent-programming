@@ -33,8 +33,8 @@ public class Q05A {
         return vectors;
     }
 
-    private static void simpleCHMInsertTest(int testSize, int threads, List<Integer[]> keys, 
-                                            List<Integer[]> values) {
+    private static void simpleCHMTest(int readNumber, int writeNumber, int threads, 
+    List<Integer[]> keys, List<Integer[]> values) {
         // Count time vars
         long startTime;
 		long endTime;
@@ -43,7 +43,6 @@ public class Q05A {
 
         // Load Maps
         ConcurrentHashMap cmap = new ConcurrentHashMap();
-        Map smap = Collections.synchronizedMap(new HashMap());
 
         // Do ConcurrentHashMap test
         countDownLatch = new CountDownLatch(threads);        
@@ -52,13 +51,13 @@ public class Q05A {
             DoCHMOperations op = new DoCHMOperations(cmap,
                                                      countDownLatch,
                                                      i,
-                                                     testSize,
+                                                     writeNumber,
                                                      0,
-                                                     0,
+                                                     readNumber,
                                                      keys.get(i),
                                                      values.get(i),
                                                      null,
-                                                     null);
+                                                     keys.get(i));
             Thread t = new Thread(op);
             t.start();
         }
@@ -75,8 +74,8 @@ public class Q05A {
         System.out.println("ConcurrentHashMap runtime - " + runtime);
     }
 
-    private static void simpleSMInsertTest(int testSize, int threads, List<Integer[]> keys, 
-                                           List<Integer[]> values) {
+    private static void simpleSMTest(int readNumber, int writeNumber, int threads, 
+    List<Integer[]> keys, List<Integer[]> values) {
         // Count time vars
         long startTime;
 		long endTime;
@@ -84,23 +83,22 @@ public class Q05A {
         CountDownLatch countDownLatch;
 
         // Load Maps
-        ConcurrentHashMap cmap = new ConcurrentHashMap();
         Map smap = Collections.synchronizedMap(new HashMap());
 
         // Do SynchronizedMap test
         countDownLatch = new CountDownLatch(threads);        
         startTime = System.nanoTime();
         for (int i = 0; i < threads; i++) {
-            DoSMOperations op = new DoSMOperations(cmap,
+            DoSMOperations op = new DoSMOperations(smap,
                                                      countDownLatch,
                                                      i,
-                                                     testSize,
+                                                     writeNumber,
                                                      0,
-                                                     0,
+                                                     readNumber,
                                                      keys.get(i),
                                                      values.get(i),
                                                      null,
-                                                     null);
+                                                     keys.get(i));
             Thread t = new Thread(op);
             t.start();
         }
@@ -118,12 +116,25 @@ public class Q05A {
     }
 
     public static void main(String[] args) {
-        List<Integer[]> keys = generateExpVectors(12, 5000000);
-        List<Integer[]> values = generateExpVectors(12, 5000000);
-        System.out.println("INSERT SM TEST WITH 12 T");
-        simpleSMInsertTest(5000000, 12, keys, values);
-        System.out.println("INSERT CHM TEST WITH 12 T");
-        simpleCHMInsertTest(5000000, 12, keys, values);
+        int colect = Integer.parseInt(args[0]);
+        int readOpNumber = Integer.parseInt(args[1]);
+        int writeOpNumber = Integer.parseInt(args[2]);
+        int maxThreads = Integer.parseInt(args[3]);
+
+        List<Integer[]> keys = generateExpVectors(maxThreads, (readOpNumber + writeOpNumber));
+        List<Integer[]> values = generateExpVectors(maxThreads, (readOpNumber + writeOpNumber));
+        
+        if (colect == 0) {
+            System.out.println("START COLECTION HASHMAP TEST");
+            for (int i = 1; i < maxThreads + 1; i++) {
+                simpleCHMTest(readOpNumber, writeOpNumber, i, keys, values);
+            }
+        } else {
+            System.out.println("START COLECTION SynchronizedMap TEST");
+            for (int i = 1; i < maxThreads + 1; i++) {
+                simpleSMTest(readOpNumber, writeOpNumber, i, keys, values);
+            }
+        }
     }
 }
 
