@@ -3,10 +3,13 @@
 #include <pthread.h>
 #include <math.h>
 #include <unistd.h>
+#include <errno.h>
+#include <time.h>
 
 pthread_mutex_t mutex;
 pthread_cond_t cond;
 int total = 0;
+int finished = 0;
 
 void* request(){
     long int numberToSleep;
@@ -18,19 +21,34 @@ void* request(){
     sleep(numberToSleep);
 
     pthread_mutex_lock(&mutex);
-    if(total != -1){
+    if(finished == 0)
         total += numberToSleep;
-    }
     pthread_mutex_unlock(&mutex);
 
     pthread_exit(NULL);
 }
 
 void* timeout(){
-    sleep(17);
+    sleep(8);
     pthread_mutex_lock(&mutex);
-    total = -1;
-    printf("Entrei aqui %d\n", total);
+    if(finished == 0){
+        finished = 1;
+        total = -1;
+    }
+    pthread_cond_signal(&cond);
+    pthread_mutex_unlock(&mutex);
+ 
+    pthread_exit(NULL);
+}
+
+void* joiner(pthread_t pthreads[]){
+    pthread_mutex_lock(&mutex);
+    for (int i = 0; i < sizeof(pthreads); i++) {     
+        pthread_join(pthreads[i], NULL);      
+    }
+    if(finished == 0){
+        finished = 1;
+    }
     pthread_cond_signal(&cond);
     pthread_mutex_unlock(&mutex);
  
@@ -40,23 +58,21 @@ void* timeout(){
 int gateway(int num_replicas) {
     pthread_t pthreads[num_replicas];
     pthread_t threadTimeout;
+    pthread_t threadJoin;
 
     for (int i = 0; i < num_replicas; i++) {
         pthread_create(&pthreads[i], NULL, &request, NULL);
     }
 
-    pthread_create(threadTimeout, NULL, &timeout, NULL);  
-    
-    for (int i = 0; i < num_replicas; i++) {     
-        pthread_mutex_lock(&mutex);
-        printf("Entrei no lock %d\n", total);
-        if (total == -1) {
-            break;
-        }
-        pthread_mutex_unlock(&mutex);
-        pthread_join(pthreads[i], NULL);      
+    pthread_create(threadTimeout, NULL, &timeout, NULL);
+    pthread_create(threadJoin, NULL, &joiner, pthreads);  
+
+    pthread_mutex_lock(&mutex);
+    while (finished == 0) {
+        pthread_cond_wait(&cond, &mutex);
     }
-    
+    pthread_mutex_unlock(&mutex);
+
     printf("\nTempo Total: %d\n", total);
     return total;
 }
