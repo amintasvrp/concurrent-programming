@@ -5,9 +5,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CountDownLatch;
 
-public class Q05A {
+public class Q05B {
 
     private static Integer[] makeRandomVector(int size) {
         Random rand = new Random();
@@ -31,8 +32,8 @@ public class Q05A {
         return vectors;
     }
 
-    private static void simpleCHMTest(int readNumber, int writeNumber, int threads, 
-    List<Integer[]> keys, List<Integer[]> values) {
+    private static void simpleCOWALTest(int readNumber, int writeNumber, int threads, 
+    Integer index[], List<Integer[]> values) {
         // Count time vars
         long startTime;
 		long endTime;
@@ -40,22 +41,21 @@ public class Q05A {
         CountDownLatch countDownLatch;
 
         // Load Maps
-        ConcurrentHashMap cmap = new ConcurrentHashMap();
+        CopyOnWriteArrayList<Integer> clist = new CopyOnWriteArrayList<Integer>();
 
         // Do ConcurrentHashMap test
         countDownLatch = new CountDownLatch(threads);        
         startTime = System.nanoTime();
         for (int i = 0; i < threads; i++) {
-            DoCHMOperations op = new DoCHMOperations(cmap,
+            DoCOWALOperations op = new DoCOWALOperations(clist,
                                                      countDownLatch,
                                                      i,
                                                      writeNumber,
                                                      0,
                                                      readNumber,
-                                                     keys.get(i),
                                                      values.get(i),
                                                      null,
-                                                     keys.get(i));
+                                                     index);
             Thread t = new Thread(op);
             t.start();
         }
@@ -72,8 +72,8 @@ public class Q05A {
         System.out.println("ConcurrentHashMap runtime - " + runtime);
     }
 
-    private static void simpleSMTest(int readNumber, int writeNumber, int threads, 
-    List<Integer[]> keys, List<Integer[]> values) {
+    private static void simpleSLTest(int readNumber, int writeNumber, int threads, 
+    Integer index[], List<Integer[]> values) {
         // Count time vars
         long startTime;
 		long endTime;
@@ -81,22 +81,21 @@ public class Q05A {
         CountDownLatch countDownLatch;
 
         // Load Maps
-        Map smap = Collections.synchronizedMap(new HashMap());
+        List<Integer> slist = Collections.synchronizedList(new ArrayList<Integer>()); 
 
-        // Do SynchronizedMap test
+        // Do ConcurrentHashMap test
         countDownLatch = new CountDownLatch(threads);        
         startTime = System.nanoTime();
         for (int i = 0; i < threads; i++) {
-            DoSMOperations op = new DoSMOperations(smap,
+            DoSLOperations op = new DoSLOperations(slist,
                                                      countDownLatch,
                                                      i,
                                                      writeNumber,
                                                      0,
                                                      readNumber,
-                                                     keys.get(i),
                                                      values.get(i),
                                                      null,
-                                                     keys.get(i));
+                                                     index);
             Thread t = new Thread(op);
             t.start();
         }
@@ -110,7 +109,7 @@ public class Q05A {
         endTime = System.nanoTime();
         runtime = endTime - startTime;
 
-        System.out.println("SynchronizedMap runtime - " + runtime);
+        System.out.println("SynchronizedList runtime - " + runtime);
     }
 
     public static void main(String[] args) {
@@ -119,18 +118,23 @@ public class Q05A {
         int writeOpNumber = Integer.parseInt(args[2]);
         int maxThreads = Integer.parseInt(args[3]);
 
-        List<Integer[]> keys = generateExpVectors(maxThreads, (readOpNumber + writeOpNumber));
-        List<Integer[]> values = generateExpVectors(maxThreads, (readOpNumber + writeOpNumber));
+        int maxOps = (readOpNumber + writeOpNumber);
+        List<Integer[]> values = generateExpVectors(maxThreads, maxOps);
+        Integer index[] = new Integer[maxOps];
+
+        for (int i = 0; i < maxOps; i++) {
+            index[i] = i;
+        }
         
         if (colect == 0) {
-            System.out.println("START COLECTION ConcurrentHashMap TEST");
+            System.out.println("START COLECTION CopyOnWriteArrayList TEST");
             for (int i = 1; i < maxThreads + 1; i++) {
-                simpleCHMTest(readOpNumber, writeOpNumber, i, keys, values);
+                simpleCOWALTest(readOpNumber, writeOpNumber, i, index, values);
             }
         } else {
-            System.out.println("START COLECTION SynchronizedMap TEST");
+            System.out.println("START COLECTION SynchronizedList TEST");
             for (int i = 1; i < maxThreads + 1; i++) {
-                simpleSMTest(readOpNumber, writeOpNumber, i, keys, values);
+                simpleSLTest(readOpNumber, writeOpNumber, i, index, values);
             }
         }
     }

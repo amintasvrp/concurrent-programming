@@ -2,7 +2,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CountDownLatch;
 
 public class DoCOWALOperations implements Runnable {
-    CopyOnWriteArrayList clist;
+    CopyOnWriteArrayList<Integer> clist;
     CountDownLatch countDownLatch;
 
     int threadId;
@@ -15,7 +15,7 @@ public class DoCOWALOperations implements Runnable {
     Integer getIndex[];
 
 
-    public DoCOWALOperations(CopyOnWriteArrayList clistInstance,
+    public DoCOWALOperations(CopyOnWriteArrayList<Integer> clistInstance,
                          CountDownLatch countDownLatch,
                          int threadId,
                          int totalInsertOperations,
@@ -55,8 +55,13 @@ public class DoCOWALOperations implements Runnable {
             }
 
             if (readCount < this.totalReadOperations) {
-                this.clist.get(getIndex[i]);
-                readCount++;
+                if (i <= this.clist.size() -1) {
+                    this.clist.get(i);
+                    readCount++;
+                } else {
+                    this.clist.get(this.totalInsertOperations -1);
+                    readCount++;
+                }
             }
         }
         System.out.println("FINISH COWAL Thread " + this.threadId);

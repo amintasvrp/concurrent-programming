@@ -3,7 +3,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.List;
 
 public class DoSLOperations implements Runnable {
-    List slist;
+    List<Integer> slist;
     CountDownLatch countDownLatch;
 
     int threadId;
@@ -16,7 +16,7 @@ public class DoSLOperations implements Runnable {
     Integer getIndex[];
 
 
-    public DoSLOperations(List slistInstance,
+    public DoSLOperations(List<Integer> slistInstance,
                          CountDownLatch countDownLatch,
                          int threadId,
                          int totalInsertOperations,
@@ -56,8 +56,13 @@ public class DoSLOperations implements Runnable {
             }
 
             if (readCount < this.totalReadOperations) {
-                this.slist.get(getIndex[i]);
-                readCount++;
+                if (i <= this.slist.size() -1) {
+                    this.slist.get(i);
+                    readCount++;
+                } else {
+                    this.slist.get(this.totalInsertOperations -1);
+                    readCount++;
+                }
             }
         }
         System.out.println("FINISH SL Thread " + this.threadId);
