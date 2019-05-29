@@ -5,6 +5,7 @@
 #include <unistd.h>
 
 pthread_mutex_t mutex;
+pthread_cond_t cond;
 int total = 0;
 
 void* request(){
@@ -17,8 +18,9 @@ void* request(){
     sleep(numberToSleep);
 
     pthread_mutex_lock(&mutex);
-    if(total != -1)
+    if(total != -1){
         total += numberToSleep;
+    }
     pthread_mutex_unlock(&mutex);
 
     pthread_exit(NULL);
@@ -28,6 +30,8 @@ void* timeout(){
     sleep(17);
     pthread_mutex_lock(&mutex);
     total = -1;
+    printf("Entrei aqui %d\n", total);
+    pthread_cond_signal(&cond);
     pthread_mutex_unlock(&mutex);
  
     pthread_exit(NULL);
@@ -42,9 +46,15 @@ int gateway(int num_replicas) {
     }
 
     pthread_create(threadTimeout, NULL, &timeout, NULL);  
-
+    
     for (int i = 0; i < num_replicas; i++) {     
-        pthread_join(pthreads[i], NULL);
+        pthread_mutex_lock(&mutex);
+        printf("Entrei no lock %d\n", total);
+        if (total == -1) {
+            break;
+        }
+        pthread_mutex_unlock(&mutex);
+        pthread_join(pthreads[i], NULL);      
     }
     
     printf("\nTempo Total: %d\n", total);
