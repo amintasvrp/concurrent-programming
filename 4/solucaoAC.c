@@ -5,10 +5,10 @@
 #include <unistd.h>
 
 pthread_mutex_t mutex;
-int total = 0;
-int qtdThreads = 0;
+pthread_cond_t cond;
+int first = 0;
 
-void* request(void* args){
+void* request(){
     long int numberToSleep;
 
     numberToSleep = (rand() % 30) + 1;
@@ -18,32 +18,42 @@ void* request(void* args){
     sleep(numberToSleep);
 
     pthread_mutex_lock(&mutex);
-    total += numberToSleep;
-    if(total < 8){
-        qtdThreads++;
-    }
+    first = numberToSleep;
+    pthread_cond_signal(&cond);
     pthread_mutex_unlock(&mutex);
 
     pthread_exit(NULL);
 }
 
+void* timeout(){
+    sleep(8);
+    pthread_mutex_lock(&mutex);
+    first = -1;
+    pthread_cond_signal(&cond);
+    pthread_mutex_unlock(&mutex);
+ 
+    pthread_exit(NULL);
+}
+
 int gateway(int num_replicas) {
     pthread_t pthreads[num_replicas];
+    pthread_t threadTimeout;
+    pthread_cond_init(&cond, NULL);
 
     for (int i = 0; i < num_replicas; i++) {
         pthread_create(&pthreads[i], NULL, &request, NULL);
     }
 
-    for (int i = 0; i < num_replicas; i++) {
-        pthread_join(pthreads[i], NULL);
-        if(qtdThreads == 0){
-            printf("Nenhum terminou em menos de 8 segundos\n");
-            return -1;
-        }
+    pthread_create(threadTimeout, NULL, &timeout, NULL);
+
+    pthread_mutex_lock(&mutex);
+    while (first == 0) {
+        pthread_cond_wait(&cond, &mutex);
     }
+    pthread_mutex_unlock(&mutex);
     
-    printf("\nTempo Total: %d\n", total);
-    return total;
+    printf("\nTempo do Primeiro: %d\n", first); // Se retornar -1, é porque deu timeout
+    return first;
 }
 
 int main(int argc, char *argv[]){
