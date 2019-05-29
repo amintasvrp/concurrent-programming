@@ -4,7 +4,7 @@ import resposta.Channel;
 
 public class ThreadSender implements Runnable{
 	
-	public Channel canal;
+	private Channel canal;
 	
 	public ThreadSender(Channel canal) {
 		this.canal = canal;
@@ -22,7 +22,7 @@ public class ThreadSender implements Runnable{
 			// Estabelecer velocidade entre threads
 			// Tornar os prints mais intuitivos -> sleep > 0
 			try {
-				Thread.sleep(0001);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 			}
