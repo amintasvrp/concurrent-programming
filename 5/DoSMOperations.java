@@ -62,7 +62,6 @@ public class DoSMOperations implements Runnable {
                 readCount++;
             }
         }
-        System.out.println("FINISH SM Thread " + this.threadId);
         countDownLatch.countDown();
     }
 }

@@ -65,7 +65,6 @@ public class DoSLOperations implements Runnable {
                 }
             }
         }
-        System.out.println("FINISH SL Thread " + this.threadId);
         countDownLatch.countDown();
     }
 }

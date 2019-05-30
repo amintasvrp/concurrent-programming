@@ -69,7 +69,8 @@ public class Q05A {
         endTime = System.nanoTime();
         runtime = endTime - startTime;
 
-        System.out.println("ConcurrentHashMap runtime - " + runtime);
+        System.out.println("ConcurrentHashMap," + runtime + "," + threads + "," + readNumber +
+            "," + writeNumber + "," + (readNumber+writeNumber));
     }
 
     private static void simpleSMTest(int readNumber, int writeNumber, int threads, 
@@ -110,7 +111,8 @@ public class Q05A {
         endTime = System.nanoTime();
         runtime = endTime - startTime;
 
-        System.out.println("SynchronizedMap runtime - " + runtime);
+        System.out.println("SynchronizedMap," + runtime + "," + threads + "," + readNumber +
+            "," + writeNumber + "," + (readNumber+writeNumber));
     }
 
     public static void main(String[] args) {

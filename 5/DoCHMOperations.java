@@ -62,7 +62,6 @@ public class DoCHMOperations implements Runnable {
                 readCount++;
             }
         }
-        System.out.println("FINISH CHM Thread " + this.threadId);
         countDownLatch.countDown();
     }
 }

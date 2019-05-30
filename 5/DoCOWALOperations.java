@@ -64,7 +64,6 @@ public class DoCOWALOperations implements Runnable {
                 }
             }
         }
-        System.out.println("FINISH COWAL Thread " + this.threadId);
         countDownLatch.countDown();
     }
 }
