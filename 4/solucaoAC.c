@@ -44,7 +44,7 @@ int gateway(int num_replicas) {
         pthread_create(&pthreads[i], NULL, &request, NULL);
     }
 
-    pthread_create(threadTimeout, NULL, &timeout, NULL);
+    pthread_create(&threadTimeout, NULL, &timeout, NULL);
 
     pthread_mutex_lock(&mutex);
     while (first == 0) {

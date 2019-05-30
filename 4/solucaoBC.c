@@ -3,13 +3,13 @@
 #include <pthread.h>
 #include <math.h>
 #include <unistd.h>
-#include <errno.h>
 #include <time.h>
 
 pthread_mutex_t mutex;
 pthread_cond_t cond;
 int total = 0;
 int finished = 0;
+int num_replicas;
 
 void* request(){
     long int numberToSleep;
@@ -19,7 +19,6 @@ void* request(){
     printf("Tempo: %ld\n", numberToSleep);
 
     sleep(numberToSleep);
-
     pthread_mutex_lock(&mutex);
     if(finished == 0)
         total += numberToSleep;
@@ -28,8 +27,8 @@ void* request(){
     pthread_exit(NULL);
 }
 
-void* timeout(){
-    sleep(8);
+void* timeout(void* args){
+    sleep(16);
     pthread_mutex_lock(&mutex);
     if(finished == 0){
         finished = 1;
@@ -41,11 +40,12 @@ void* timeout(){
     pthread_exit(NULL);
 }
 
-void* joiner(pthread_t pthreads[]){
-    pthread_mutex_lock(&mutex);
-    for (int i = 0; i < sizeof(pthreads); i++) {     
+void* joiner(void* args){
+    pthread_t* pthreads = (pthread_t*) args;
+    for (int i = 0; i < num_replicas; i++) {   
         pthread_join(pthreads[i], NULL);      
     }
+    pthread_mutex_lock(&mutex);
     if(finished == 0){
         finished = 1;
     }
@@ -64,8 +64,8 @@ int gateway(int num_replicas) {
         pthread_create(&pthreads[i], NULL, &request, NULL);
     }
 
-    pthread_create(threadTimeout, NULL, &timeout, NULL);
-    pthread_create(threadJoin, NULL, &joiner, pthreads);  
+    pthread_create(&threadTimeout, NULL, &timeout, (void*) NULL);
+    pthread_create(&threadJoin, NULL, &joiner, (void*) pthreads);  
 
     pthread_mutex_lock(&mutex);
     while (finished == 0) {
@@ -73,12 +73,13 @@ int gateway(int num_replicas) {
     }
     pthread_mutex_unlock(&mutex);
 
-    printf("\nTempo Total: %d\n", total);
+    printf("\nTempo Total: %d\n", total); // Se o valor total for -1, é porque deu timeout
     return total;
 }
 
 int main(int argc, char *argv[]){
-    int num_replicas;
+ 
+    pthread_mutex_init(&mutex, NULL);
 
     scanf("%d", &num_replicas);
 
