@@ -1,4 +1,4 @@
-package Resposta;
+package resposta;
 
 public interface IChannel {
 	

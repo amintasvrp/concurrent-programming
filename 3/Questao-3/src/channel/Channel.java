@@ -1,4 +1,4 @@
-package Resposta;
+package channel;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -10,22 +10,20 @@ public class Channel implements IChannel{
 	 * Mensagens não podem ser descartadas.
 	 */
 	
-	private Queue<String> messages;
+	private Queue<Integer> messages;
 	private int capacity;
 	
 	
-	public void channel(int capacity) {
+	public Channel(int capacity) {
 		this.messages = new LinkedList<>();
 		this.capacity = capacity;		
 	}
 
 
 	@Override
-	public void putMessage(String message) {
+	public void putMessage(Integer message) {
 		synchronized (this.messages) {
-			int size = this.messages.size();
-			int capacity = this.capacity;
-			while(size == capacity) {
+			while(this.messages.size() >= this.capacity) {
 				try {
 					this.messages.wait();
 				} catch (InterruptedException e) {
@@ -40,7 +38,7 @@ public class Channel implements IChannel{
 
 
 	@Override
-	public String takeMessage() {
+	public Integer takeMessage() {
 		synchronized (this.messages) {
 			while(this.messages.isEmpty()) {
 				try {
@@ -49,7 +47,7 @@ public class Channel implements IChannel{
 					// TODO: handle exception
 				}				
 			}
-			String result = this.messages.remove();
+			Integer result = this.messages.remove();
 			this.messages.notifyAll();
 			return result;
 		}
