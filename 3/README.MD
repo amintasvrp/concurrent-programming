@@ -15,6 +15,17 @@ obs 1) Pequenas mudanças na API indicada podem ser realizadas, para que seja po
 
 obs 2) Em Java, não use nenhuma biblioteca além da SDK. Também, não considere nenhum mecanismo avançado de controle de concorrência (somente as classes/interfaces Runnable e Thread, bem como as primitivas synchronized, volatile  e wait/notify). Em C, use pthreads.
 
+#### Comando utilizado para compilação (em C) no Linux
+
+```
+gcc -pthread -o solucao solucao.c
+``` 
+
+#### Soluções da questão
+
+* O código da solução da letra _a_ em C encontra-se [aqui](https://github.com/dalesEwerton/PC-Lista1/blob/questao3/3/solucaoAC.c)
+* O código da solução da letra _b_ em C encontra-se [aqui](https://github.com/dalesEwerton/PC-Lista1/blob/questao3/3/solucaoBC.c)
+
 
 
 
