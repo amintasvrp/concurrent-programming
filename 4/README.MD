@@ -9,10 +9,10 @@
  #### Soluções da questão
  
  
- * O código da solução da letra _a_ em C encontra-se [aqui](https://github.com/dalesEwerton/PC-Lista1/blob/master/4/solucaoAC.c)
- * O código da solução da letra _b_ em C encontra-se [aqui](https://github.com/dalesEwerton/PC-Lista1/blob/master/4/solucaoBC.c)
- * O código da solução da letra _a_ em Java encontra-se [aqui](https://github.com/dalesEwerton/PC-Lista1/tree/master/4/Questao-4/src/respostaA)
- * O código da solução da letra _b_ em Java encontra-se [aqui](https://github.com/dalesEwerton/PC-Lista1/tree/master/4/Questao-4/src/respostaB)
+ * O código da solução da letra _a_ em C encontra-se [aqui](https://github.com/dalesEwerton/PC-Lista1/blob/master/4/C/solucaoAC.c)
+ * O código da solução da letra _b_ em C encontra-se [aqui](https://github.com/dalesEwerton/PC-Lista1/blob/master/4/C/solucaoBC.c)
+ * O código da solução da letra _a_ em Java encontra-se [aqui](https://github.com/dalesEwerton/PC-Lista1/tree/master/4/Java/Questao-4/src/respostaA)
+ * O código da solução da letra _b_ em Java encontra-se [aqui](https://github.com/dalesEwerton/PC-Lista1/tree/master/4/Java/Questao-4/src/respostaB)
  
 
 
