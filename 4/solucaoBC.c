@@ -28,7 +28,7 @@ void* request(){
 }
 
 void* timeout(void* args){
-    sleep(16);
+    sleep(17);
     pthread_mutex_lock(&mutex);
     if(finished == 0){
         finished = 1;
