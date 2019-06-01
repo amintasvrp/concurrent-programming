@@ -1,4 +1,4 @@
-package Resposta;
+package channel;
 
 public interface IChannel {
 	
@@ -8,7 +8,7 @@ public interface IChannel {
 	 * 
 	 */
 	
-	public void putMessage(String message); 
+	public void putMessage(Integer message); 
 	
 	/*
 	 * Processos recipientes lêem as mensagens enviadas no canal.
@@ -16,6 +16,6 @@ public interface IChannel {
 	 * Uma vez lida, a mensagem não pode ser lida novamente.
 	 */
 	
-	public String takeMessage();
+	public Integer takeMessage();
 
 }
