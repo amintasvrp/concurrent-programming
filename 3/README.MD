@@ -23,8 +23,10 @@ gcc -pthread -o solucao solucao.c
 
 #### Soluções da questão
 
-* O código da solução da letra _a_ em C encontra-se [aqui](https://github.com/dalesEwerton/PC-Lista1/blob/questao3/3/solucaoAC.c)
-* O código da solução da letra _b_ em C encontra-se [aqui](https://github.com/dalesEwerton/PC-Lista1/blob/questao3/3/solucaoBC.c)
+* O código da solução da letra _a_ em C encontra-se [aqui](https://github.com/dalesEwerton/PC-Lista1/blob/master/3/solucaoAC.c)
+* O código da solução da letra _b_ em C encontra-se [aqui](https://github.com/dalesEwerton/PC-Lista1/blob/master/3/solucaoBC.c)
+* O código da solução da letra _a_ em Java encontra-se [aqui](https://github.com/dalesEwerton/PC-Lista1/tree/master/3/Questao-3/src/respostaA)
+* O código da solução da letra _b_ em Java encontra-se [aqui](https://github.com/dalesEwerton/PC-Lista1/tree/master/3/Questao-3/src/respostaB)
 
 
 
