@@ -42,4 +42,12 @@ Imagem 04 - Resultado do comando time na execução das implementações
 * No caso das threads concorrentes, o tempo da CPU é bem maior do que o tempo real, ou seja, o gasto de CPU foi bem maior. Isto poderia ser causado pelo já foi explicitado aqui, dado que com o uso threads concorrentes ocasionam condições de corrida e várias trocas de contexto, que dão origem a operações custosas e o programa inteiro demora mais para terminar a execução.
 * Já nas threads sequenciais, vemos que o tempo _real_ é praticamente igual ao gasto pela CPU. Isto pode ser explicado pelo fato de que, quando uma thread entra na CPU, ela só sai de lá quando terminar sua execução, ou seja, salvo em condições de exceções e erros, não haverão condicões de corrida e consequentemente também não haverão muitas trocas de contexto, fazendo com que o tempo de processamento de fato seja mais rápido.
 
+As imagens abaixo mostram os status ao executar os códigos concorrente e sequencial
 
+![PerfConcorrente](./Images/perfcodigoconcorrente.jpeg)
+`Execução do comando perf para o código concorrente`
+
+![PerfSequencial](./Images/perfcodigosequencial.jpeg)
+`Execução do comando perf para o código sequencial`
+
+Como podemos ver, o código concorrente utilizou `0,668 K/sec` realizando troca de contexto enquanto o sequencial apenas `0,266 K/sec`, confirmando a hipótese de que o tempo de troca de contexto entre as threads é significativo para esse exemplo e o principal motivo para o experimento sequencial obter um tempo de execução inferior ao tempo do experimento concorrente.
