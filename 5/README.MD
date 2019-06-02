@@ -66,6 +66,8 @@ Nos gráficos escolhidos para visualizar os resultados dos testes para essa ques
 
 #### Conclusões sobre o item A
 
+Nos nossos testes, o tempo de execução da coleção `ConcurrentHashMap` foi inferior ao  da coleção `SynchronizedMap` em todos os testes para um alto número de threads. Porém, é importante observar que algumas vezes, para operações utilizando um número de threads baixo, a coleção `SynchronizedMap` obteve um melhor resultado, principalmente quando também estavamos considerando um número menor de operações.
+Também notamos que quanto maior é a proporção de operações de leitura, mais se acentua o melhor desempenho da coleção `ConcurrentHashMap`
 
 ###  B) CopyOnWriteArrayList vs Collections.synchronizedList
 
@@ -77,7 +79,6 @@ Nos gráficos escolhidos para visualizar os resultados dos testes para essa ques
 ![1090B](https://raw.githubusercontent.com/dalesEwerton/PC-Lista1/master/assets/img/CopyOnWriteArrayList%20vs%20SynchronizeList%2010%25R%2090%25W%20.png?token=AE7ADSFYOGMZKM4MFN3YW6S47RKW6)
 [Clique para acessar gráfico com qualidade e de forma interativa no Flourish](https://public.flourish.studio/visualisation/397241/)
 
-
 #### Gráfico para o teste que utiliza 90% de operações de leitura e 10% de operações de escrita
 ![9010B](https://raw.githubusercontent.com/dalesEwerton/PC-Lista1/master/assets/img/CopyOnWriteArrayList%20vs%20SynchronizeList%2090%25R%2010%25W%20.png?token=AE7ADSCPIBZNDU6X42UH3BC47RKZQ)
 [Clique para acessar gráfico com qualidade e de forma interativa no Flourish](https://public.flourish.studio/visualisation/397242/)
@@ -86,7 +87,10 @@ Nos gráficos escolhidos para visualizar os resultados dos testes para essa ques
 ![9010B](https://raw.githubusercontent.com/dalesEwerton/PC-Lista1/master/assets/img/CopyOnWriteArrayList%20vs%20SynchronizeList%2099%25R%201%25W%20.png?token=AE7ADSCSO4HD7MFWRVKTN4K47RK4O)
 [Clique para acessar gráfico com qualidade e de forma interativa no Flourish](https://public.flourish.studio/visualisation/397243/)
 
-
 #### Conclusões sobre o item B
 
+Para o item B a coleção `SynchronizedList` obteve um melhor resultado na grande maioria do experimento. Em grande parte do experimento seu tempo de execução foi tão inferior ao da coleção `CopyOnWriteArrayList` que tivemos que por o eixo `x` dos gráficos desse item em escala logaritimica, caso o contrário seus resultados estariam tão proximos ao eixo `y` que dificultariam a visualização.
 
+Nesse item adicionamos um teste extra, 99% de operações de leitura e 1% de operações de escrita, partindo do preceito que a coleção `CopyOnWriteArrayList` tem seu resultado prejudicado na medida em que o número de operações de escrita cresce na coleção. Entretanto, mesmo para esse caso, e para o caso onde apenas 10% das operações eram de escrita, tal só obtém um desempenho equivalente ao da coleção `SynchronizedList` para um número de operações baixo e coleções de tamanho relativamente pequeno.
+
+É obvio a concluir que a coleção `CopyOnWriteArrayList` é tão melhor quanto menor a proporção de operações de escrita realizadas. Porém, nos nossos testes, mesmo quando apenas um 1% das operações são de escrita, tal coleção apenas consegue apresentar resultados equivalentes a coleção `SynchronizedList`, tendo resultados inferiores em todos os outros casos de teste.
