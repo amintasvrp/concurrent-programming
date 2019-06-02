@@ -10,7 +10,6 @@ void* run(void* args){
 
     my_id = (long int) args;
 
-    pthread_mutex_init(&lock, NULL);
     pthread_mutex_lock(&lock);
     for (j = 0; j < 1e7; j++) {
         counter++;
@@ -25,6 +24,7 @@ int main(int argc, char *argv[]){
     int i;
     pthread_t pthreads[3];
 
+    pthread_mutex_init(&lock, NULL);
     for (i = 0; i < 3; i++) {
         pthread_create(&pthreads[i], NULL, &run, (void*) i);
     }
