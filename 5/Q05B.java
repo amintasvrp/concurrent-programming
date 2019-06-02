@@ -69,7 +69,8 @@ public class Q05B {
         endTime = System.nanoTime();
         runtime = endTime - startTime;
 
-        System.out.println("ConcurrentHashMap runtime - " + runtime);
+        System.out.println("CopyOnWriteArrayList," + runtime + "," + threads + "," + readNumber +
+            "," + writeNumber + "," + (readNumber+writeNumber));
     }
 
     private static void simpleSLTest(int readNumber, int writeNumber, int threads, 
@@ -109,7 +110,8 @@ public class Q05B {
         endTime = System.nanoTime();
         runtime = endTime - startTime;
 
-        System.out.println("SynchronizedList runtime - " + runtime);
+        System.out.println("SynchronizedList," + runtime + "," + threads + "," + readNumber +
+            "," + writeNumber + "," + (readNumber+writeNumber));
     }
 
     public static void main(String[] args) {
