@@ -45,9 +45,9 @@ Imagem 04 - Resultado do comando time na execução das implementações
 As imagens abaixo mostram os status ao executar os códigos concorrente e sequencial
 
 ![PerfConcorrente](./Images/perfcodigoconcorrente.jpeg)
-`Execução do comando perf para o código concorrente`
+Imagem 05 - Resultado da execução do comando perf para o código concorrente
 
 ![PerfSequencial](./Images/perfcodigosequencial.jpeg)
-`Execução do comando perf para o código sequencial`
+Imagem 06 - Resultado da execução do comando perf para o código sequencial
 
 Como podemos ver, o código concorrente utilizou `0,668 K/sec` realizando troca de contexto enquanto o sequencial apenas `0,266 K/sec`, confirmando a hipótese de que o tempo de troca de contexto entre as threads é significativo para esse exemplo e o principal motivo para o experimento sequencial obter um tempo de execução inferior ao tempo do experimento concorrente.
