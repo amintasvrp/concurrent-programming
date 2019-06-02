@@ -11,7 +11,7 @@ obs) É importante avaliar as diferenças de desempenho conforme o número de th
 
 ## Metodologia
 
-A metodologia utitlizada tanto para o item A quanto para o item B a foi a mesma.
+A metodologia utitlizada tanto para o item A quanto para o item B foi a mesma.
 
 ### Testes
 
@@ -36,6 +36,7 @@ Sob tais condições, os seguintes testes foram executados para cada uma das 4 c
 * 50% de operações de leitura e 50% de operações de escrita
 * 90% de operações de leitura e 10% de operações de escrita
 * 10% de operações de leitura e 90% de operações de escrita
+* 1% de operações de leitura e 99% de operações de escrita (Apenas para o item B)
 
 Cada teste foi executado para um número máximo de threads variando de 1 à 60.
 
@@ -43,7 +44,7 @@ Cada teste foi executado para um número máximo de threads variando de 1 à 60.
 
 ### Gráficos
 
-Nos gráficos escolhidos para visualizar os resultados dos testes para essa questão cada ponto indica no eixo `x` o tempo de execução do teste em nanosegundos e no eixo `y` a quantidade de threads criadas para o teste. Também plotamos uma curva de tendência dos resuldos baseados nos pontos obtidos do experimento. A cor de cada ponto de da linha de tendencia indica a coleção utilizada no teste e o número em negrito no canto superior esquerdo de cada gráfico mostra no número de operações realizadas em cada um dos testes.
+Nos gráficos escolhidos para visualizar os resultados dos testes para essa questão cada ponto indica no eixo `x` o tempo de execução do teste em nanosegundos e no eixo `y` a quantidade de threads criadas para o teste. Também plotamos uma curva de tendência dos resuldos baseados nos pontos obtidos do experimento. A cor de cada ponto de da linha de tendencia indica a coleção utilizada no teste e o número em negrito no canto superior esquerdo de cada gráfico mostra o número de operações realizadas em cada um dos testes.
 
 ## Resultados
 
@@ -91,6 +92,6 @@ Também notamos que quanto maior é a proporção de operações de leitura, mai
 
 Para o item B a coleção `SynchronizedList` obteve um melhor resultado na grande maioria do experimento. Em grande parte do experimento seu tempo de execução foi tão inferior ao da coleção `CopyOnWriteArrayList` que tivemos que por o eixo `x` dos gráficos desse item em escala logaritimica, caso o contrário seus resultados estariam tão proximos ao eixo `y` que dificultariam a visualização.
 
-Nesse item adicionamos um teste extra, 99% de operações de leitura e 1% de operações de escrita, partindo do preceito que a coleção `CopyOnWriteArrayList` tem seu resultado prejudicado na medida em que o número de operações de escrita cresce na coleção. Entretanto, mesmo para esse caso, e para o caso onde apenas 10% das operações eram de escrita, tal só obtém um desempenho equivalente ao da coleção `SynchronizedList` para um número de operações baixo e coleções de tamanho relativamente pequeno.
+Nesse item adicionamos um teste extra, 99% de operações de leitura e 1% de operações de escrita, partindo do preceito que a coleção `CopyOnWriteArrayList` tem seu resultado prejudicado na medida em que o número de operações de escrita cresce na coleção. Entretanto, mesmo para esse caso, e para o caso onde apenas 10% das operações eram de escrita, tal coleção só obtém um desempenho equivalente ao da coleção `SynchronizedList` para um número de operações baixo e coleções de tamanho relativamente pequeno.
 
-É obvio a concluir que a coleção `CopyOnWriteArrayList` é tão melhor quanto menor a proporção de operações de escrita realizadas. Porém, nos nossos testes, mesmo quando apenas um 1% das operações são de escrita, tal coleção apenas consegue apresentar resultados equivalentes a coleção `SynchronizedList`, tendo resultados inferiores em todos os outros casos de teste.
+É obvio a concluir que o desempenho da coleção `CopyOnWriteArrayList` é tão melhor quanto menor a proporção de operações de escrita realizadas. Porém, nos nossos testes, mesmo quando apenas um 1% das operações são de escrita, tal coleção apenas consegue apresentar resultados equivalentes a coleção `SynchronizedList`, tendo resultados inferiores em todos os outros casos de teste.
