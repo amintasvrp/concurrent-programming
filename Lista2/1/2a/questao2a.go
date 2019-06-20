@@ -34,6 +34,7 @@ func getTimer(counterCh chan int) int {
 }
 
 func request(wg *sync.WaitGroup, counter chan int) int {
+	rand.Seed(time.Now().UTC().UnixNano())
 	timer := rand.Intn(30) + 1
 	fmt.Println(timer)
 	defer wg.Done()

@@ -9,19 +9,22 @@ import (
 )
 
 func gateway(numReplicas int) int {
+	firstCh := make(chan int)
 	operationDone := make(chan bool)
 	for i := 0; i < numReplicas; i++ {
-		go request(operationDone)
+		go request(operationDone, firstCh)
 	}
+	first := <-firstCh
 	<-operationDone
-	return 0
+	return first
 }
 
-func request(operationDone chan bool) int {
+func request(operationDone chan bool, firstCh chan int) int {
+	rand.Seed(time.Now().UTC().UnixNano())
 	timer := rand.Intn(30) + 1
 	fmt.Println(timer)
 	time.Sleep(time.Duration(timer) * time.Second)
-	fmt.Println("O menor tempo foi: ", timer)
+	firstCh <- timer
 	operationDone <- true
 	return timer
 }
@@ -43,5 +46,5 @@ func getNumReplicas() int {
 }
 
 func main() {
-	gateway(getNumReplicas())
+	fmt.Println("O menor tempo foi: ", gateway(getNumReplicas()))
 }
