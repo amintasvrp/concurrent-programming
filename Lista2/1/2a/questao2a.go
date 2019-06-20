@@ -60,5 +60,5 @@ func getNumReplicas() int {
 }
 
 func main() {
-	fmt.Println(gateway(getNumReplicas()))
+	fmt.Println("O tempo total foi:", gateway(getNumReplicas()))
 }
