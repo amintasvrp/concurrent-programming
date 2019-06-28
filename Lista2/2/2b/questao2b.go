@@ -9,18 +9,31 @@ import (
 )
 
 func gateway(numReplicas int) int {
-	counterCh := make(chan int, numReplicas)
+	counterCh := make(chan int, numReplicas+1)
+	go timeout(counterCh)
 	for i := 0; i < numReplicas; i++ {
 		go request(counterCh)
 	}
+
 	return getTimer(counterCh, numReplicas)
+}
+
+func timeout(counter chan int) int {
+	timer := 16
+	time.Sleep(time.Duration(timer) * time.Second)
+	counter <- (-1)
+	return timer
 }
 
 func getTimer(counterCh chan int, numReplicas int) int {
 	counter := 0
 	for i := 0; i < numReplicas; i++ {
 		elem := <-counterCh
-		counter += elem
+		if elem == -1 {
+			return elem
+		} else {
+			counter += elem
+		}
 	}
 	return counter
 }
