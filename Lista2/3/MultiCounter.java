@@ -14,10 +14,11 @@ public class MultiCounter implements Runnable {
 
     public void run() {
         for (int i = 0; i < 1000000; i++) {
-            if (i % 100 == 0) {
+            if (i % 100000 == 0) {
                 System.out.println("thread " +  this.threadId + " contou até " + i);
             }
         }
+        
         countDownLatch.countDown();
     }
 }
