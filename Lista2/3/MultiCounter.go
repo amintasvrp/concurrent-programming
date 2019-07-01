@@ -55,8 +55,7 @@ func main() {
 
 			for j := 0; j < 1000000; j++ {
 				if j % 100000 == 0 {
-					// Ocasionalmente, imprime o resultado parcial da contagem para uma go routine
-					fmt.Println("go routine",id,"countou até", j)
+					//fmt.Println("go routine",id,"countou até", j)
 				}
 			}
 		}(atualId)
@@ -64,5 +63,5 @@ func main() {
 	
 	// Dorme até que o valor do WaitGroup chegue a zero
 	wg.Wait()
-	fmt.Println("Max:", maxMem,"mb","Media:", (sumMem/qtSum),"mb")
+	fmt.Println("go,",maxMem,",",(sumMem/qtSum))
 }
