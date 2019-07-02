@@ -14,8 +14,8 @@ var qtSum uint64 = 0
 var maxMem uint64 = 0
 
 //Converte bytes em Megabytes
-func bToMb(b uint64) uint64 {
-    return b / 1024.0 / 1024.0
+func bToKb(b uint64) uint64 {
+    return b / 1024.0
 }
 
 // Realiza a leitura da memória a cada segundo
@@ -23,7 +23,7 @@ func RegMemUsage() {
         for {
         	var m runtime.MemStats
 	        runtime.ReadMemStats(&m)
-	        var atualAlloc = bToMb(m.Alloc)
+	        var atualAlloc = bToKb(m.Alloc)
 
 	        sumMem = atualAlloc + sumMem
 	        qtSum = 1 + qtSum
@@ -53,15 +53,13 @@ func main() {
 			// Decrementa o WaitGroup cada vez que uma das go routines finaliza
 			defer wg.Done()
 
-			for j := 0; j < 1000000; j++ {
-				if j % 100000 == 0 {
-					//fmt.Println("go routine",id,"countou até", j)
-				}
+			for j := 0; j < 100; j++ {
+				time.Sleep(100 * time.Millisecond)
 			}
 		}(atualId)
 	}
 	
 	// Dorme até que o valor do WaitGroup chegue a zero
 	wg.Wait()
-	fmt.Println("go,",maxMem,",",(sumMem/qtSum))
+	fmt.Println("go,",maxMem,",",(sumMem/qtSum),",",routinesNumber)
 }

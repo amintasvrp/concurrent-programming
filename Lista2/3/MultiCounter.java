@@ -13,9 +13,11 @@ public class MultiCounter implements Runnable {
     }
 
     public void run() {
-        for (int i = 0; i < 1000000; i++) {
-            if (i % 100000 == 0) {
-                //System.out.println("thread " +  this.threadId + " contou até " + i);
+        for (int k = 0; k < 100; k++) {
+            try {
+                Thread.currentThread().sleep(100);
+            } catch(InterruptedException e) {
+                System.out.println("Erro ao executar teste: " + e.getMessage());
             }
         }
         

@@ -9,11 +9,9 @@ public class RunCounter {
         int numberOfThreadsCounting = Integer.parseInt(args[0]);
         CountDownLatch countDownLatch = new CountDownLatch(numberOfThreadsCounting);
         
-        RegMemUsage regMem = new RegMemUsage();
+        RegMemUsage regMem = new RegMemUsage(numberOfThreadsCounting);
         Thread readMem = new Thread(regMem);
         readMem.start();
-
-        System.out.println("Inicio dos Testes");
 
         for (int i = 0; i < numberOfThreadsCounting; i++) {
             MultiCounter mc = new MultiCounter(countDownLatch, i + 1);
@@ -27,7 +25,6 @@ public class RunCounter {
             System.out.println("Erro ao executar teste: " + e.getMessage());
         }
 
-        System.out.println("Fim da execução dos testes.");
         regMem.stop();
     }
 }
@@ -38,18 +35,20 @@ class RegMemUsage implements Runnable {
 
     private volatile boolean exit = false;
     Runtime rt = Runtime.getRuntime();
+    int numberOfThreadsCounting;
 
-    public RegMemUsage() {}
+    public RegMemUsage(int numberOfThreadsCounting) {
+        this.numberOfThreadsCounting = numberOfThreadsCounting;
+    }
 
     public void run() {
 
-        long sumMem = 0;
-        long qtSum = 0;
-        long maxMem = 0;
+        long sumMem = 0L;
+        long qtSum = 0L;
+        long maxMem = 0L;
         
         while (!exit) {
-            long heapSize = rt.totalMemory() - rt.freeMemory();
-            heapSize = heapSize / 1024 / 1024;
+            long heapSize = (rt.totalMemory() - rt.freeMemory()) / 1024;
 
             sumMem += heapSize;
             qtSum +=1;
@@ -65,7 +64,7 @@ class RegMemUsage implements Runnable {
             
         }
 
-        System.out.println("java,"+ maxMem + "," + (sumMem/qtSum));
+        System.out.println("java,"+ maxMem + "," + (sumMem/qtSum) + "," + this.numberOfThreadsCounting);
     }
 
     public void stop(){
