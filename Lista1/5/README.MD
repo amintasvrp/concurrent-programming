@@ -1,97 +1,74 @@
+### Problem Description
+
+Perform a performance comparison between the following pairs of alternate data structures. Your answer should contain a description of the experiments performed, the code to perform the experiments, as well as the code to analyze the experimental data. In addition, a brief description of the results achieved with plots illustrating them.
+
+It is important to evaluate performance differences as the number of threads increases (ie, as the content increases). Also, it is important to evaluate the workload ratio (between operations that change data structure and operations that do not). In particular, the size of structures can also be an important factor (this is the case of CopyOnWriteArrayList).
+
+### Resolution
+
+#### Methodology
+
+The methodology used for both item A and item B was the same.
+
+#### Tests
+
+Initially classes were created that implement the Java Runnable interface. Such classes received as a parameter in their builders
+* Instance of concurrent collection where tests would be run;
+* The reference of a Latch used to ensure complete execution of all threads;
+* An id to designate the thread;
+* The total amount of insert, remove, and read operations to perform;
+* Sets under which parameters are taken for insertions, removals and readings.
+
+We then create test execution classes in the collections, one class for each question item, [Q05A.java](./Q05A.java) and [Q05B.java](./Q05B.java).
+
+These classes are given as a parameter (via command line).
+* A number representing the collection to be used in the test.
+* The number of read operations to perform
+* The number of write operations to perform
+* Maximum number of concurrent threads to be used in the test
+
+Each test was then performed in isolation to prevent the 'remains' of previous operations from interfering with the outcome of subsequent tests.
+
+Under these conditions, the following tests were performed for each of the 4 collections.
+* 50% read operations and 50% write operations;
+* 90% read operations and 10% write operations;
+* 10% read operations and 90% write operations;
+* 1% read operations and 99% write operations.
+
+Each test was run for a maximum number of threads ranging from 1 to 60.
+
+[Outputs for tests performed can be found here](./outputs).
+
+#### Graphics
+
+In the graphs chosen to view the test results for this question each point indicates on the `x` axis the test execution time in nanoseconds and on the` y` axis the number of threads created for the test. We also plotted a trend curve of the results based on the points obtained from the experiment. The color of each trendline point indicates the collection used in the test, and the bold number in the upper left corner of each graph shows the number of operations performed on each of the tests.
+
+### Results
+
+#### ConcurrentHashMap vs Collections.synchronizedMap
+
+Test chart that uses 50% read operations and 50% interactive, quality write operations [here](https://public.flourish.studio/visualisation/394146/).
+
+Test chart using 10% read operations and 90% interactive, quality write operations [here](https://public.flourish.studio/visualisation/394174/).
+
+Test chart that uses 90% read operations and 10% interactive, quality write operations [here](https://public.flourish.studio/visualisation/394177/).
+
+In our tests, the `ConcurrentHashMap` collection runtime was shorter than the` SynchronizedMap` collection on all tests for a high number of threads. However, it is important to note that sometimes, for operations using a low number of threads, the `SynchronizedMap` collection obtained a better result, especially when we were also considering a smaller number of operations.
+We also note that the higher the read operations ratio, the more performance the `ConcurrentHashMap` collection increases.
+
+#### CopyOnWriteArrayList vs Collections.synchronizedList
+
+Test chart that uses 50% of write operations and 50% of read operations, quality and interactively, [here](https://public.flourish.studio/visualisation/397240/).
+
+Test chart that uses 10% read operations and 90% interactive, quality write operations [here](https://public.flourish.studio/visualisation/397241/).
+
+Graph for the test using 90% read operations and 10% interactive, quality write operations [here](https://public.flourish.studio/visualisation/397242/).
+
+Test chart that uses 99% read operations and 1% interactive, quality write operations [here](https://public.flourish.studio/visualisation/397243/).
 
 
-### Realize uma comparação de desempenho entre os seguintes pares de estruturas de dados alternativas. Sua resposta deve conter uma descrição dos experimentos realizados, o código para executar os experimentos, bem como o código para analisar os dados experimentais. Alem disso, uma breve descrição dos resultados alcançados com plots que os ilustram.
+For item B the `SynchronizedList` collection obtained a better result in the vast majority of the experiment. In much of the experiment its execution time was so shorter than the `CopyOnWriteArrayList` collection that we had to put the` x` axis of the logarithmic scale of this item, otherwise its results would be so close to the `y` axis that it would be difficult the visualization.
 
- * a) ConcurrentHashMap vs Collections.synchronizedMap
- * b) CopyOnWriteArrayList vs Collections.synchronizedList
+In this item we add an extra test, 99% of read operations and 1% of write operations, assuming that the `CopyOnWriteArrayList` collection is impaired as the number of write operations increases in the collection. However, even in this case, and for the case where only 10% of operations were write, such a collection only achieves performance equivalent to the `SynchronizedList` collection for a low number of operations and relatively small size collections.
 
-obs) É importante avaliar as diferenças de desempenho conforme o número de threads aumenta (ou seja, conforme aumenta a conteção). Ainda, é importante avaliar a proporção da carga de trabalho (entre operações que alteram a estrutura de dados e operações que não alteram). Particularmente, o tamanho das estruturar pode ser também um fator importante (é o caso claro de CopyOnWriteArrayList).
-
-# Resolução
-
-## Metodologia
-
-A metodologia utitlizada tanto para o item A quanto para o item B foi a mesma.
-
-### Testes
-
-Inicialmente foram criadas classes que implementam a interface Runnable do Java. Tais classes recebiam como parâmetro em seus construtores
-* A instancia da coleção concorrente onde os testes seriam executados
-* A refência de um Latch utilizado para garantir a execução completa de todas as threads
-* Um id para designar a thread
-* A quantidade total de operações de inserção, remoção e leitura a serem realizadas
-* Conjuntos sob os quais são retirados os parametros para a realização de inserções, remoções e leituras
-
-Em seguida, criamos classes de execução dos testes nas coleções, uma classe para cada item da questão, [Q05A.java](./Q05A.java) e [Q05B.java](./Q05B.java).
-
-Essas classes recebem como parametro (via linha de comando)
-* Um número que representa a coleção a ser utitlizada no teste
-* O número de operações de leitura a serem realizadas
-* O número de operações de escrita a serem realizadas
-* O número máximo de threads simultaneas a serem utilizadas no teste
-
-Cada teste então foi executado isoladamente, para evitar que os 'restos' das operações anteriores não intereferissem no resultado dos testes seguintes.
-
-Sob tais condições, os seguintes testes foram executados para cada uma das 4 coleções
-* 50% de operações de leitura e 50% de operações de escrita
-* 90% de operações de leitura e 10% de operações de escrita
-* 10% de operações de leitura e 90% de operações de escrita
-* 1% de operações de leitura e 99% de operações de escrita (Apenas para o item B)
-
-Cada teste foi executado para um número máximo de threads variando de 1 à 60.
-
-[As saídas para os testes executados podem ser encontradas aqui](./outputs).
-
-### Gráficos
-
-Nos gráficos escolhidos para visualizar os resultados dos testes para essa questão cada ponto indica no eixo `x` o tempo de execução do teste em nanosegundos e no eixo `y` a quantidade de threads criadas para o teste. Também plotamos uma curva de tendência dos resuldos baseados nos pontos obtidos do experimento. A cor de cada ponto de da linha de tendencia indica a coleção utilizada no teste e o número em negrito no canto superior esquerdo de cada gráfico mostra o número de operações realizadas em cada um dos testes.
-
-## Resultados
-
-### A) ConcurrentHashMap vs Collections.synchronizedMap
-
-#### Gráfico para o teste que utiliza 50% de operações de leitura e 50% de operações de escrita
-
-![5050](https://raw.githubusercontent.com/dalesEwerton/PC-Lista1/master/assets/img/ConcurrentHashMap%20vs%20SynchronizeMap%2050%25R%2050%25W.png?token=AE7ADSC476FEFD6BPXICO5S47GLMG)
-[Clique para acessar gráfico com qualidade e de forma interativa no Flourish](https://public.flourish.studio/visualisation/394146/)
-
-#### Gráfico para o teste que utiliza 10% de operações de leitura e 90% de operações de escrita
-
-![1090](https://raw.githubusercontent.com/dalesEwerton/PC-Lista1/master/assets/img/ConcurrentHashMap%20vs%20SynchronizeMap%2010%25R%2090%25W%20.png?token=AE7ADSDIQJXIFMXFN4D3CP247GLKK)
-[Clique para acessar gráfico com qualidade e de forma interativa no Flourish](https://public.flourish.studio/visualisation/394174/)
-
-#### Gráfico para o teste que utiliza 90% de operações de leitura e 10% de operações de escrita
-
-![9010](https://raw.githubusercontent.com/dalesEwerton/PC-Lista1/master/assets/img/ConcurrentHashMap%20vs%20SynchronizeMap%2090%25R%2010%25W%20.png?token=AE7ADSB2V6DTLSDINTVKFQ247GLOC)
-[Clique para acessar gráfico com qualidade e de forma interativa no Flourish](https://public.flourish.studio/visualisation/394177/)
-
-#### Conclusões sobre o item A
-
-Nos nossos testes, o tempo de execução da coleção `ConcurrentHashMap` foi inferior ao  da coleção `SynchronizedMap` em todos os testes para um alto número de threads. Porém, é importante observar que algumas vezes, para operações utilizando um número de threads baixo, a coleção `SynchronizedMap` obteve um melhor resultado, principalmente quando também estavamos considerando um número menor de operações.
-Também notamos que quanto maior é a proporção de operações de leitura, mais se acentua o melhor desempenho da coleção `ConcurrentHashMap`
-
-###  B) CopyOnWriteArrayList vs Collections.synchronizedList
-
-#### Gráfico para o teste que utiliza 50% de operações de escrita e 50% de operações de leitura
-![5050B](https://raw.githubusercontent.com/dalesEwerton/PC-Lista1/master/assets/img/CopyOnWriteArrayList%20vs%20SynchronizeList%2050%25R%2050%25W%20.png?token=AE7ADSBAD3EI4CIORQWISVC47RKQG)
-[Clique para acessar gráfico com qualidade e de forma interativa no Flourish](https://public.flourish.studio/visualisation/397240/)
-
-#### Gráfico para o teste que utiliza 10% de operações de leitura e 90% de operações de escrita
-![1090B](https://raw.githubusercontent.com/dalesEwerton/PC-Lista1/master/assets/img/CopyOnWriteArrayList%20vs%20SynchronizeList%2010%25R%2090%25W%20.png?token=AE7ADSFYOGMZKM4MFN3YW6S47RKW6)
-[Clique para acessar gráfico com qualidade e de forma interativa no Flourish](https://public.flourish.studio/visualisation/397241/)
-
-#### Gráfico para o teste que utiliza 90% de operações de leitura e 10% de operações de escrita
-![9010B](https://raw.githubusercontent.com/dalesEwerton/PC-Lista1/master/assets/img/CopyOnWriteArrayList%20vs%20SynchronizeList%2090%25R%2010%25W%20.png?token=AE7ADSCPIBZNDU6X42UH3BC47RKZQ)
-[Clique para acessar gráfico com qualidade e de forma interativa no Flourish](https://public.flourish.studio/visualisation/397242/)
-
-#### Gráfico para o teste que utiliza 99% de operações de leitura e 1% de operações de escrita
-![9010B](https://raw.githubusercontent.com/dalesEwerton/PC-Lista1/master/assets/img/CopyOnWriteArrayList%20vs%20SynchronizeList%2099%25R%201%25W%20.png?token=AE7ADSCSO4HD7MFWRVKTN4K47RK4O)
-[Clique para acessar gráfico com qualidade e de forma interativa no Flourish](https://public.flourish.studio/visualisation/397243/)
-
-#### Conclusões sobre o item B
-
-Para o item B a coleção `SynchronizedList` obteve um melhor resultado na grande maioria do experimento. Em grande parte do experimento seu tempo de execução foi tão inferior ao da coleção `CopyOnWriteArrayList` que tivemos que por o eixo `x` dos gráficos desse item em escala logaritimica, caso o contrário seus resultados estariam tão proximos ao eixo `y` que dificultariam a visualização.
-
-Nesse item adicionamos um teste extra, 99% de operações de leitura e 1% de operações de escrita, partindo do preceito que a coleção `CopyOnWriteArrayList` tem seu resultado prejudicado na medida em que o número de operações de escrita cresce na coleção. Entretanto, mesmo para esse caso, e para o caso onde apenas 10% das operações eram de escrita, tal coleção só obtém um desempenho equivalente ao da coleção `SynchronizedList` para um número de operações baixo e coleções de tamanho relativamente pequeno.
-
-É obvio a concluir que o desempenho da coleção `CopyOnWriteArrayList` é tão melhor quanto menor a proporção de operações de escrita realizadas. Porém, nos nossos testes, mesmo quando apenas um 1% das operações são de escrita, tal coleção apenas consegue apresentar resultados equivalentes a coleção `SynchronizedList`, tendo resultados inferiores em todos os outros casos de teste.
+It is obvious to conclude that the performance of the `CopyOnWriteArrayList` collection is better as the proportion of write operations performed is smaller. However, in our tests, even when only 1% of the operations are write, such a collection can only give results equivalent to the `SynchronizedList` collection, having inferior results in all other test cases.

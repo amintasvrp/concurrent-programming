@@ -1,33 +1,36 @@
+### Problem Description
 
+Consider a program with two main functions listed below:
 
-### Considere um programa com duas funções principais indicadas abaixo:
+```
+ int gateway(int num_replicas)
+ int request()
+```
 
- * int gateway(int num_replicas)
+The request function should draw a random number between 1 and 30, sleep for a number of seconds given by the random number drawn, and return the number value. In turn, the gateway function must start num_replicas threads, and each thread will execute the request function.
 
- * int request()
+#### First Problem
 
-A função request deve sortear um número aleatório entre 1 e 30, dormir por uma quantidade de segundos dada pelo número aleatório sorteado, e retornar o valor do número. Por sua vez, a função gateway deve iniciar num_replicas threads, e cada thread executará a função request. 
+Write in Java and C a version of the program where the gateway function returns the value of the first thread that finishes executing the request function (without waiting for the other threads to finish).
 
-Escreva, em Java e em C, uma versão do programa em que a função gateway retorna o valor da primeira thread que termine a execução da função request (sem que seja necessário esperar as demais threads terminarem).
-Escreva, em Java e em C, ma versão do programa em que a função gateway retorna a soma dos valores retornados na execução da função request por todas as réplicas criadas.
+* The solution code in C is [here](https://github.com/dalesEwerton/PC-Lista1/blob/master/3/C/solucaoAC.c).
+* The solution code in Java is [here](https://github.com/dalesEwerton/PC-Lista1/tree/master/3/Java/Questao-3/src/respostaA).
 
-obs 1) Pequenas mudanças na API indicada podem ser realizadas, para que seja possível adaptar o código para as linguagens indicadas. Contacte o professor caso queira realizar alguma mudança.
+#### Second Problem
 
-obs 2) Em Java, não use nenhuma biblioteca além da SDK. Também, não considere nenhum mecanismo avançado de controle de concorrência (somente as classes/interfaces Runnable e Thread, bem como as primitivas synchronized, volatile  e wait/notify). Em C, use pthreads.
+Write, in Java and C, the version of the program where the gateway function returns the sum of the values ​​returned in the execution of the request function for all created replicas.
 
-#### Comando utilizado para compilação (em C) no Linux
+* The solution code in C is [here](https://github.com/dalesEwerton/PC-Lista1/blob/master/3/C/solucaoBC.c).
+* The solution code in Java is [here](https://github.com/dalesEwerton/PC-Lista1/tree/master/3/Java/Questao-3/src/respostaB).
+
+#### Notes:
+
+1. Minor changes to the indicated API can be made so that the code can be adapted to the indicated languages. Contact the teacher if you want to make any changes.
+
+2. In Java, do not use any libraries other than the SDK. Also, do not consider any advanced concurrency control mechanisms (only Runnable and Thread classes / interfaces, as well as synchronized, volatile, and wait / notify primitives). In C, use pthreads.
+
+#### Command Used for Compiling (in C) on Linux
 
 ```
 gcc -pthread -o solucao solucao.c
 ``` 
-
-#### Soluções da questão
-
-* O código da solução da letra _a_ em C encontra-se [aqui](https://github.com/dalesEwerton/PC-Lista1/blob/master/3/C/solucaoAC.c)
-* O código da solução da letra _b_ em C encontra-se [aqui](https://github.com/dalesEwerton/PC-Lista1/blob/master/3/C/solucaoBC.c)
-* O código da solução da letra _a_ em Java encontra-se [aqui](https://github.com/dalesEwerton/PC-Lista1/tree/master/3/Java/Questao-3/src/respostaA)
-* O código da solução da letra _b_ em Java encontra-se [aqui](https://github.com/dalesEwerton/PC-Lista1/tree/master/3/Java/Questao-3/src/respostaB)
-
-
-
-

@@ -1,7 +1,25 @@
-### Questão 02 
+### Problem Description
 
-Considere novas versões para os programas acima de modo que:
+Consider a program with two main functions listed below:
 
-a) A função gateway retorne -1 caso nenhuma goroutine tenha terminado antes de 8 segundos nos programas da questão 1a.
+```
+int gateway (int num_replicas)
+int request ()
+```
 
-b) A função gateway retorne -1 caso alguma goroutine ainda esteja executando após 16 segundos nos programas da questão 1b.
+The request function should draw a random number between 1 and 30, sleep for a number of seconds given by the random number drawn, and return the number value. In turn, the gateway function must start num_replicas goroutines, and each thread goroutines the request function.
+
+#### First Problem 
+
+Write a version of the program where the gateway function returns -1 if no goroutine has terminated before 8 seconds the execution for the request function (without waiting for the other goroutines to finish).
+
+#### Second Problem 
+
+Write a version of the program where the gateway function returns -1 if any goroutines are still running after 16 seconds the execution of the request function for all created replicas.
+
+Note: Minor changes to the indicated API can be made so that the code can be adapted to the indicated language. Contact the teacher if you want to make any changes.
+
+### Solutions
+
+* The resolution for the first situation is [here](https://github.com/dalesEwerton/PC-Lista1/blob/master/Lista2/2/2a/questao2a.go).
+* The resolution for the second situation is [here](https://github.com/dalesEwerton/PC-Lista1/blob/master/Lista2/2/2b/questao2b.go).

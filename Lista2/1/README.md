@@ -1,18 +1,25 @@
-### Questão 01
+### Problem Description
 
-Considere um programa com duas funções principais indicadas abaixo:
+Consider a program with two main functions listed below:
 
-* int gateway(int num_replicas)
+```
+int gateway (int num_replicas)
+int request ()
+```
 
-* int request()
+The request function should draw a random number between 1 and 30, sleep for a number of seconds given by the random number drawn, and return the number value. In turn, the gateway function must start num_replicas goroutines, and each thread goroutines the request function.
 
-A função request deve sortear um número aleatório entre 1 e 30, dormir por uma quantidade de segundos dada pelo número aleatório sorteado, e retornar o valor do número. Por sua vez, a função gateway deve iniciar num_replicas goroutines, e cada thread goroutines a função request. 
+#### First Problem 
 
-a) Escreva uma versão do programa em que a função gateway retorna o valor da primeira goroutine que termine a execução da função request (sem que seja necessário esperar as demais goroutines terminem).
+Write a version of the program where the gateway function returns the value of the first goroutine that finishes executing the request function (without waiting for the other goroutines to finish).
 
-b) Escreva uma versão do programa em que a função gateway retorna a soma dos valores retornados na execução da função request por todas as réplicas criadas.
+#### Second Problem 
 
-obs 1) Pequenas mudanças na API indicada podem ser realizadas, para que seja possível adaptar o código para a linguagem indicada. Contacte o professor caso queira realizar alguma mudança.
+Write a version of the program where the gateway function returns the sum of the values returned in the execution of the request function for all created replicas.
 
-* A resposta da letra _a)_ pode ser encontrada [aqui](https://github.com/dalesEwerton/PC-Lista1/blob/master/Lista2/1/1a/questao1a.go)
-* A resposta de letra _b)_ pode ser encontrada [aqui](https://github.com/dalesEwerton/PC-Lista1/blob/master/Lista2/1/1b/questao1b.go)
+Note: Minor changes to the indicated API can be made so that the code can be adapted to the indicated language. Contact the teacher if you want to make any changes.
+
+### Solutions
+
+* The resolution for the first situation is [here](https://github.com/dalesEwerton/PC-Lista1/blob/master/Lista2/1/1a/questao1a.go).
+* The resolution for the second situation is [here](https://github.com/dalesEwerton/PC-Lista1/blob/master/Lista2/1/1b/questao1b.go).
