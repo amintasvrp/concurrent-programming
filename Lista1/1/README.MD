@@ -1,53 +1,76 @@
 
 
-### Questão 1 - Em sala, mostramos o seguinte trecho de código (desprotegido). Nesse código, três threads incrementam um contador compartilhado. Cada thread realiza 10.000.000 operações de incremento. Modifique o código para que nenhum incremento seja perdido, e, ao fim da execução do programa, o valor do contador seja 30.000.000. Execute experimentos para coletar o tempo de execução de cada uma das duas versões do programa. Explique a razão da diferença de desempenho. Forneça evidências que corroborem sua explicação (no Linux, você pode usar as ferrametnas eBPF e perf, por exemplo).
+### Problem Description
+
+In an unprotected code snippet, three threads increment a shared counter. Each thread performs 10,000,000 increment operations. Modify the code so that no increment is lost, and at the end of program execution the counter value is 30,000,000. Run experiments to collect the runtime of each of the two versions of the program. Explain the reason for the performance difference. Provide evidence to support your explanation (on Linux, you can use eBPF and perf tools, for example).
 
 
 
-#### Solução para que nenhum incremento seja perdido
+#### Solution to not miss any increment
 
-* Como dito no enunciado da questão, as três threads do programa incrementam um contador de forma compartilhada, ou seja, a área do código em que ocorre tal incremento é dita como região crítica, em que ocorrem condições de corrida entre as threads.
-* Para que não houvessem condições de corrida, foi preciso pensar em alguma solução que garantisse exclusão mútua entre as threads, ou seja, que apenas uma thread por vez entrasse na região crítica e nenhuma outra que tentasse tal feito obtivesse sucesso. Portanto, utilizou-se um mutex para solucionar o problema, dado que os mutex são feitos para sinalizar quando regiões críticas de código precisam de acesso exclusivo, impedindo que outras threads com a mesma proteção sejam executadas simultaneamente e acessem os mesmos locais de memória.
-* O código da solução encontra-se [aqui](https://github.com/dalesEwerton/PC-Lista1/blob/master/1/ThreadsSequenciais.c) e as linhas utilizadas para solução foram da _17_ até a _21_. 
-* Já o código original encontra-se [aqui](https://github.com/dalesEwerton/PC-Lista1/blob/master/1/ThreadsConcorrentes.c).
-Foram feitas algumas pequenas mudanças no código disponibilizado pelo professor, para que este executasse nas máquinas dos alunos. Porém, o fluxo e execução original não foram alterados.
+* As stated in the statement of the question, the program's three threads increment a counter in a shared way, that is, the area of ​​code in which such an increment occurs is said to be a critical region, where race conditions occur between the threads.
+* In order not to have race conditions, we had to think of a solution that would guarantee mutual exclusion between the threads, that is, only one thread at a time would enter the critical region and no other that tried to do so would succeed. Therefore, a mutex was used to solve the problem, as mutexes are meant to signal when critical code regions need exclusive access, preventing other threads with the same protection from running concurrently and accessing the same memory locations.
+* The solution is [here](https://github.com/dalesEwerton/PC-Lista1/blob/master/1/ThreadsSequenciais.c) and the lines used for solution were from _17_ to _21_. 
+* Already the original code is [here](https://github.com/dalesEwerton/PC-Lista1/blob/master/1/ThreadsConcorrentes.c).
+Some minor changes were made to the code made available by the teacher to run on the students' machines. However, the original flow and execution did not change.
 
 
-#### Por que as threads sequenciais tiveram um tempo de execução menor?
-![Tempo1](./Images/TempoThreadsConcorrentes.png)
+#### Why did sequential threads have a shorter runtime ?
 
-Imagem 01 - Compilação e tempo de execução das threads concorrentes
+<p align="center">
+  <img src="./Images/TempoThreadsConcorrentes.png">
+</p>
+<p align="center">
+  Image 01 - Compilation and runtime of concurrent threads
+</p>
 
-![Tempo2](./Images/TempoThreadsSequenciais.png)
+<p align="center">
+  <img src="./Images/TempoThreadsSequenciais.png">
+</p>
+<p align="center">
+    Image 02 - Compilation and runtime of sequential threads
+</p>
 
-Imagem 02 - Compilação e tempo de execução das threads sequenciais
+<p align="center">
+  <img width="671" height="500" src="./Images/TempoConcXSeq.png">
+</p>
+<p align="center">
+    Image 03 - Graph comparing runtime of concurrent threads with sequential threads
+</p>
 
-![Tempo3](./Images/TempoConcXSeq.png)
+* In the graph above, we can see that the execution time of concurrent threads is increasing much more than the sequential threads.
 
-Imagem 03 - Gráfico comparando o tempo de execução das threads concorrentes com as sequenciais
+* A possible factor influencing runtime is that threads that run concurrently are vying for CPU, ie they do not complete what they need to do as they only spend a lot of time on the CPU and when time is up, another thread goes into place, causing execution of the previous one to be interrupted and need to wait for another thread to lose CPU to have a chance to get there again. Therefore, many context switches occur within this problem, which are time consuming as well as the time the thread has to wait to execute.
+* Already running sequentially, there is not so much context switching and, as mutual deletion occurs, each thread needs to wait for the entire program to execute, then enter the CPU and execute what needs to be executed. . That is, since there are not so many context switches or execution interruptions and so many waits to get into the CPU, sequential execution becomes faster.
+* Another factor that can influence time is that the time spent doing operations on each iteration in the program is very small and there is a very significant overhead involved in creating and managing multiple threads. In this case, the use of threads only increases efficiency when each iteration is sufficiently expensive in terms of processor time.
 
-* No gráfico acima, podemos notar que o tempo de execução das threads concorrentes vai aumentando bem mais do que os das threads sequenciais.
+Seeking to expand the analysis of runtimes, we execute the terminal _time_ command in the execution of both implementations. The result follows below:
 
-* Um possível fator que influencia no tempo de execução é que as threads que executam de forma concorrente ficam disputando a CPU entre si, ou seja, elas não completam o que precisam fazer, dado que passam apenas uma quantidade de tempo na CPU e quando este tempo acaba, outra thread entra no lugar, fazendo com que a execução da anterior seja interrompida e necessite esperar que outra thread perca a CPU para ter uma chance de entrar lá novamente. Portanto, ocorrem muitas trocas de contexto dentro deste problema, que consomem tempo, além do tempo que a thread precisa esperar para executar. 
-* Já na execução de forma sequencial, não há tantas trocas de contexto e, como ocorre exclusão mútua, cada thread precisa esperar a que está na vez executar todo o programa, para, após isso, entrar na CPU e executar o que precisa ser executado. Ou seja, como não há tantas trocas de contexto nem interrupções na execução e tantas esperas para entrar na CPU, a execução de forma sequencial torna-se mais rápida.
-* Um outro fator que pode influenciar no tempo é que o tempo gasto fazendo operações em cada iteração no programa é muito pequeno e há uma sobrecarga bastante significativa envolvida na criação e no gerenciamento de várias threads. No caso, o uso de threads só aumenta a eficiência quando cada iteração é suficientemente cara em termos de tempo do processador.
+<p align="center">
+  <img width="671" height="500" src="./Images/SysExecTime.png">
+</p>
+<p align="center">
+    Imagem 04 - Resultado do comando time na execução das implementações
+</p>
 
-Buscando expandir a análise dos tempos de execução, executamos o comando _time_ do terminal na execução de ambas implementações. O resultado segue abaixo:
+* Thus, we have that _real_ time refers to the time that was spent from start to finish of the call, including the time used by other processes and the time the process spends blocked. The _user_ time is the actual CPU time used to execute the process. To know the total time spent by the CPU we must add the time _user_ with the time _sys_.
+* In the case of concurrent threads, the CPU time is much longer than the real time, that is, the CPU expense was much higher. This could be caused by what has already been explained here, since using concurrent threads causes race conditions and various context changes, which result in costly operations and the entire program takes longer to finish executing.
+* In sequential threads, we see that _real_ time is practically equal to the time spent by the CPU. This can be explained by the fact that when a thread enters the CPU, it only leaves the CPU when it finishes its execution, that is, except in exception and error conditions, there will be no race conditions and consequently there will not be many exchanges. context, making the actual processing time faster.
 
-![Tempo4](./Images/SysExecTime.png)
+The images below show the statuses when executing concurrent and sequential codes.
 
-Imagem 04 - Resultado do comando time na execução das implementações
+<p align="center">
+  <img width="671" height="300" src="./Images/perfcodigoconcorrente.jpeg">
+</p>
+<p align="center">
+    Imagem 05 - Resultado da execução do comando perf para o código concorrente
+</p>
 
-* Com isso, temos que, o tempo _real_ refere-se ao tempo que foi gasto do início ao fim da chamada, incluindo o tempo usado por outros processos e o tempo que o processo gasta bloqueado. Já o tempo _user_ é o tempo real da CPU usado na execução do processo. Para saber o tempo total gasto pela CPU devemos somar o tempo _user_ com o tempo _sys_.
-* No caso das threads concorrentes, o tempo da CPU é bem maior do que o tempo real, ou seja, o gasto de CPU foi bem maior. Isto poderia ser causado pelo já foi explicitado aqui, dado que com o uso threads concorrentes ocasionam condições de corrida e várias trocas de contexto, que dão origem a operações custosas e o programa inteiro demora mais para terminar a execução.
-* Já nas threads sequenciais, vemos que o tempo _real_ é praticamente igual ao gasto pela CPU. Isto pode ser explicado pelo fato de que, quando uma thread entra na CPU, ela só sai de lá quando terminar sua execução, ou seja, salvo em condições de exceções e erros, não haverão condicões de corrida e consequentemente também não haverão muitas trocas de contexto, fazendo com que o tempo de processamento de fato seja mais rápido.
+<p align="center">
+  <img width="671" height="300" src="./Images/perfcodigosequencial.jpeg">
+</p>
+<p align="center">
+    Imagem 06 - Resultado da execução do comando perf para o código sequencial
+</p>
 
-As imagens abaixo mostram os status ao executar os códigos concorrente e sequencial
-
-![PerfConcorrente](./Images/perfcodigoconcorrente.jpeg)
-Imagem 05 - Resultado da execução do comando perf para o código concorrente
-
-![PerfSequencial](./Images/perfcodigosequencial.jpeg)
-Imagem 06 - Resultado da execução do comando perf para o código sequencial
-
-Como podemos ver, o código concorrente utilizou `0,668 K/sec` realizando troca de contexto enquanto o sequencial apenas `0,266 K/sec` e também, o código concorrente gastou muito mais CPU. Confirmando a hipótese de que o tempo de troca de contexto entre as threads é significativo para esse exemplo e é o principal motivo para o experimento sequencial obter um tempo de execução inferior ao tempo do experimento concorrente.
+As we can see, the concurrent code used `0.668 k/sec` performing context switching while the sequential only `0.266 k/sec` and also, the concurrent code spent a lot more CPU. Confirming the hypothesis that the time of context switching between threads is significant for this example and is the main reason for the sequential experiment to get a shorter execution time than the concurrent experiment.

@@ -1,31 +1,38 @@
 
 
-## Listas de Programação Concorrente - 2019.1
+# Concurrent Programming Solutions
 
-### Integrantes
+## List of Problems
 
- * Amanda Luna    - https://github.com/avdluna
- * Amintas Victor - https://github.com/amintasvrp
- * Dales Fragoso  - https://github.com/dalesEwerton/
- 
-## Lista 1
+### First List of Problems
 
-### Utilize os links abaixo para visualizar a solução de cada um  das questões
+#### [Sequential Threads vs Concurrent Threads](./Lista1/1)
 
-#### [Questão 1](./Lista1/1).
+#### [Channels](./Lista1/2)
 
-#### [Questão 2](./Lista1/2).
+#### [Firt Threads: C and Java](./Lista1/3)
 
-#### [Questão 3](./Lista1/3).
+#### [Last Threads: C and Java](./Lista1/4)
 
-#### [Questão 4](./Lista1/4).
+#### [Concurrent Data Structures in Java](./Lista1/5)
 
-#### [Questão 5](./Lista1/5).
+### Second List of Problems
 
-## Lista 2
+#### [Firt Threads: GO](./Lista2/1).
 
-#### [Questão 1](./Lista2/1).
+#### [Last Threads: GO](./Lista2/2).
 
-#### [Questão 2](./Lista2/2).
+#### [Java Threads vs Go routines](./Lista2/3).
 
-#### [Questão 3](./Lista2/3).
+
+## Contributors
+* **Amanda Luna** - *Initial work* - [GitHub](https://github.com/avdluna) 
+* **Amintas Victor** - *Initial work* - [GitHub](https://github.com/amintasvrp)
+* **Dales Fragoso** - *Initial work* - [GitHub](https://github.com/dalesEwerton)
+
+ If you contributed with this project, your name will be placed here. Welcome to the hall of fame :)
+
+## Acknowledgments
+* Regular C and Java
+* Knowledge about Data Science
+* Willingness to learn, research and develop (no laziness!)
