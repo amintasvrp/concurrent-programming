@@ -10,7 +10,7 @@
 
 #### [Channels](./Lista1/2)
 
-#### [Firt Threads: C and Java](./Lista1/3)
+#### [First Threads: C and Java](./Lista1/3)
 
 #### [Last Threads: C and Java](./Lista1/4)
 
@@ -18,7 +18,7 @@
 
 ### Second List of Problems
 
-#### [Firt Threads: GO](./Lista2/1).
+#### [First Threads: GO](./Lista2/1).
 
 #### [Last Threads: GO](./Lista2/2).
 
