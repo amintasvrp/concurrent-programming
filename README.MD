@@ -2,6 +2,8 @@
 
 # Concurrent Programming Solutions
 
+This repository covers solutions to concurrent programming problems. They were developed during the Concurrent Programming discipline.
+
 ## List of Problems
 
 ### First List of Problems
@@ -33,6 +35,7 @@
  If you contributed with this project, your name will be placed here. Welcome to the hall of fame :)
 
 ## Acknowledgments
-* Regular C and Java
-* Knowledge about Data Science
+* Regular C, Java and Go
+* Knowledge about Concurrent Programming
+* Knowledge about Data Science (not required, but desirable)
 * Willingness to learn, research and develop (no laziness!)
