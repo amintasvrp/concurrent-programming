@@ -10,29 +10,29 @@ In an unprotected code snippet, three threads increment a shared counter. Each t
 
 * As stated in the statement of the question, the program's three threads increment a counter in a shared way, that is, the area of ​​code in which such an increment occurs is said to be a critical region, where race conditions occur between the threads.
 * In order not to have race conditions, we had to think of a solution that would guarantee mutual exclusion between the threads, that is, only one thread at a time would enter the critical region and no other that tried to do so would succeed. Therefore, a mutex was used to solve the problem, as mutexes are meant to signal when critical code regions need exclusive access, preventing other threads with the same protection from running concurrently and accessing the same memory locations.
-* The solution is [here](https://github.com/dalesEwerton/PC-Lista1/blob/master/1/ThreadsSequenciais.c) and the lines used for solution were from _17_ to _21_. 
-* Already the original code is [here](https://github.com/dalesEwerton/PC-Lista1/blob/master/1/ThreadsConcorrentes.c).
+* The solution is [here](./SequentialThreads.c) and the lines used for solution were from _17_ to _21_. 
+* Already the original code is [here](./ConcurrentThreads.c).
 Some minor changes were made to the code made available by the teacher to run on the students' machines. However, the original flow and execution did not change.
 
 
 #### Why did sequential threads have a shorter runtime ?
 
 <p align="center">
-  <img src="./Images/TempoThreadsConcorrentes.png">
+  <img src="./Images/ConcurrentThreadsTime.png">
 </p>
 <p align="center">
   Image 01 - Compilation and runtime of concurrent threads
 </p>
 
 <p align="center">
-  <img src="./Images/TempoThreadsSequenciais.png">
+  <img src="./Images/SequentialThreadsTime.png">
 </p>
 <p align="center">
     Image 02 - Compilation and runtime of sequential threads
 </p>
 
 <p align="center">
-  <img width="671" height="500" src="./Images/TempoConcXSeq.png">
+  <img width="671" height="500" src="./Images/TimeChart.png">
 </p>
 <p align="center">
     Image 03 - Graph comparing runtime of concurrent threads with sequential threads
@@ -60,14 +60,14 @@ Seeking to expand the analysis of runtimes, we execute the terminal _time_ comma
 The images below show the statuses when executing concurrent and sequential codes.
 
 <p align="center">
-  <img width="671" height="300" src="./Images/perfcodigoconcorrente.jpeg">
+  <img width="671" height="300" src="./Images/ConcurrentThreadsPerformance.jpeg">
 </p>
 <p align="center">
     Imagem 05 - Resultado da execução do comando perf para o código concorrente
 </p>
 
 <p align="center">
-  <img width="671" height="300" src="./Images/perfcodigosequencial.jpeg">
+  <img width="671" height="300" src="./Images/SequentialThreadsPerformance.jpeg">
 </p>
 <p align="center">
     Imagem 06 - Resultado da execução do comando perf para o código sequencial

@@ -16,7 +16,7 @@ public interface Channel {
 
 #### Solution
 
-The code for the solution of the question is [here](https://github.com/dalesEwerton/PC-Lista1/tree/master/2/Questao-2/src/resposta).
+The code for the solution of the question is [here](./src).
 
 
 
