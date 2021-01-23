@@ -14,15 +14,15 @@ The request function should draw a random number between 1 and 30, sleep for a n
 Write in Java and C a version of the program where the gateway function returns -1 if no threads have terminated, before 8 seconds, the request function (without waiting for the other threads to finish).
 
 
-* The solution code in C is [here](https://github.com/dalesEwerton/PC-Lista1/blob/master/4/C/solucaoAC.c).
-* The solution code in Java is [here](https://github.com/dalesEwerton/PC-Lista1/blob/master/4/C/solucaoBC.c).
+* The solution code in C is [here](./C/solution-a.c).
+* The solution code in Java is [here](./Java/src/solutionA).
 
 #### Second Problem
 
 Write, in Java and C, the version of the program where the gateway function returns -1 if any threads are still running, after 16 seconds, the request function for all created replicas.
 
-* The solution code in C is [here](https://github.com/dalesEwerton/PC-Lista1/tree/master/4/Java/Questao-4/src/respostaA).
-* The solution code in Java is [here](https://github.com/dalesEwerton/PC-Lista1/tree/master/4/Java/Questao-4/src/respostaB).
+* The solution code in C is [here](./C/solution-b.c).
+* The solution code in Java is [here](./Java/src/solutionB).
 
 #### Notes:
 
