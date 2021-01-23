@@ -6,23 +6,23 @@ This repository covers solutions to concurrent programming problems. Its develop
 
 ### First List of Problems
 
-#### [Sequential Threads vs Concurrent Threads](./Lista1/1)
+#### [Sequential Threads vs Concurrent Threads](./List1/1)
 
-#### [Channels](./Lista1/2)
+#### [Channels](./List1/2)
 
-#### [First Threads: C and Java](./Lista1/3)
+#### [First Threads: C and Java](./List1/3)
 
-#### [Last Threads: C and Java](./Lista1/4)
+#### [Last Threads: C and Java](./List1/4)
 
-#### [Concurrent Data Structures in Java](./Lista1/5)
+#### [Concurrent Data Structures in Java](./List1/5)
 
 ### Second List of Problems
 
-#### [First Threads: GO](./Lista2/1).
+#### [First Threads: GO](./List2/1).
 
-#### [Last Threads: GO](./Lista2/2).
+#### [Last Threads: GO](./List2/2).
 
-#### [Java Threads vs Go routines](./Lista2/3).
+#### [Java Threads vs Go routines](./List2/3).
 
 
 ## Contributors
