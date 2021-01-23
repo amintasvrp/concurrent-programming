@@ -1,4 +1,6 @@
-# Concurrent Programming Solutions
+<h1 align="center">
+  Concurrent Programming Solutions
+</h1>
 
 This repository covers solutions to concurrent programming problems.
 
