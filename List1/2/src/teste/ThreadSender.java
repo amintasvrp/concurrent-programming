@@ -4,10 +4,10 @@ import resposta.Channel;
 
 public class ThreadSender implements Runnable{
 	
-	private Channel canal;
+	private final Channel channel;
 	
-	public ThreadSender(Channel canal) {
-		this.canal = canal;
+	public ThreadSender(Channel channel) {
+		this.channel = channel;
 	}
 	
 	@Override
@@ -16,11 +16,11 @@ public class ThreadSender implements Runnable{
 		String message = "";
 		for (int i = 0; i < 20; i++) {
 			message += i; 
-			this.canal.putMessage(message);
+			this.channel.putMessage(message);
 			System.out.println("SENDING " + message);
-			
-			// Estabelecer velocidade entre threads
-			// Tornar os prints mais intuitivos -> sleep > 0
+
+			// Establish speed between threads
+			// Making prints more intuitive -> sleep > 0
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {

@@ -6,16 +6,16 @@ import java.util.Queue;
 public class Channel implements IChannel{
 	
 	/*
-	 * Considere que o construtor do canal recebe um inteiro que indica sua capacidade máxima. 
-	 * Mensagens não podem ser descartadas.
+	 * Consider that the channel builder receives an integer that indicates its maximum capacity.
+	 * Messages cannot be discarded.
 	 */
 	
 	/*
-	 * Os prints para teste foram colocados 
+	 * The prints were put to test
 	 */
 	
-	private Queue<String> messages;
-	private int capacity;
+	private final Queue<String> messages;
+	private final int capacity;
 	
 	
 	public Channel(int capacity) {
@@ -35,7 +35,7 @@ public class Channel implements IChannel{
 				}				
 			}
 			this.messages.add(message);
-			System.out.print("TAMANHO " + this.messages.size() + " : ");
+			System.out.print("SIZE " + this.messages.size() + " : ");
 			this.messages.notifyAll();
 		}
 		
@@ -54,7 +54,7 @@ public class Channel implements IChannel{
 			}
 			String result = this.messages.remove();
 			
-			System.out.print("TAMANHO " + this.messages.size() + " : ");
+			System.out.print("SIZE " + this.messages.size() + " : ");
 			
 			this.messages.notifyAll();
 			return result;

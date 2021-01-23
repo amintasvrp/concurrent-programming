@@ -2,20 +2,20 @@ package resposta;
 
 public interface IChannel {
 	
-	/* Um canal recebe mensagens enviadas por processos (threads) remetentes.
-	 * O canal deve ter uma capacidade máxima, ou seja, ao atingir o limite, 
-	 * novas mensagens não podem ser enviadas para o canal imediatamente.
-	 * 
+	/*
+	 * A channel receives messages sent by sending processes (threads).
+	 * The channel must have a maximum capacity, that is, when reaching
+	 * the limit, new messages cannot be sent to the channel immediately.
 	 */
 	
-	public void putMessage(String message); 
+	void putMessage(String message);
 	
 	/*
-	 * Processos recipientes lêem as mensagens enviadas no canal.
-	 * Mensagens devem ser lidas na ordem que entraram no canal. 
-	 * Uma vez lida, a mensagem não pode ser lida novamente.
+	 * Recipient processes read messages sent on the channel. Messages must
+	 * be read in the order they entered the channel. Once read, the message
+	 * cannot be read again.
 	 */
 	
-	public String takeMessage();
+	String takeMessage();
 
 }

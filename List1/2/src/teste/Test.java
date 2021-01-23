@@ -6,14 +6,14 @@ public class Test {
 	
 	public static void main(String[] args) throws InterruptedException {
 		
-		// Modificar capacidade
-		int capacidade = 5;
+		// Setting capacity
+		int capacity = 5;
 		
-		Channel canal = new Channel(capacidade);
-		ThreadSender sender = new ThreadSender(canal);
-		ThreadReceiver receiver = new ThreadReceiver(canal);
+		Channel channel = new Channel(capacity);
+		ThreadSender sender = new ThreadSender(channel);
+		ThreadReceiver receiver = new ThreadReceiver(channel);
 		
-		System.out.println("----INICIANDO----");
+		System.out.println("----STARTING----");
 		
 		Thread sending = new Thread(sender);
 		Thread receiving = new Thread(receiver);
@@ -25,7 +25,7 @@ public class Test {
 		receiving.join();
 			
 		
-		System.out.println("----FINALIZANDO----");
+		System.out.println("----ENDING----");
 		
 	}
 
