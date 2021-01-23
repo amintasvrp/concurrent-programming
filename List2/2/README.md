@@ -21,5 +21,5 @@ Note: Minor changes to the indicated API can be made so that the code can be ada
 
 ### Solutions
 
-* The resolution for the first situation is [here](https://github.com/dalesEwerton/PC-Lista1/blob/master/Lista2/2/2a/questao2a.go).
-* The resolution for the second situation is [here](https://github.com/dalesEwerton/PC-Lista1/blob/master/Lista2/2/2b/questao2b.go).
+* The resolution for the first situation is [here](./2a/question-2a.go).
+* The resolution for the second situation is [here](./2b/question-2b.go).
