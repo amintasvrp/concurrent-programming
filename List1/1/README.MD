@@ -1,10 +1,6 @@
-
-
 ### Problem Description
 
 In an unprotected code snippet, three threads increment a shared counter. Each thread performs 10,000,000 increment operations. Modify the code so that no increment is lost, and at the end of program execution the counter value is 30,000,000. Run experiments to collect the runtime of each of the two versions of the program. Explain the reason for the performance difference. Provide evidence to support your explanation (on Linux, you can use eBPF and perf tools, for example).
-
-
 
 #### Solution to not miss any increment
 
