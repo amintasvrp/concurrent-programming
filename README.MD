@@ -25,12 +25,8 @@ This repository covers solutions to concurrent programming problems.
 #### [Java Threads vs Go routines](./List%202/3).
 
 
-## Contributors
-* **Amanda Luna** - *Initial work* - [GitHub](https://github.com/avdluna) 
-* **Amintas Victor** - *Initial work* - [GitHub](https://github.com/amintasvrp)
-* **Dales Fragoso** - *Initial work* - [GitHub](https://github.com/dalesEwerton)
-
- If you contributed with this project, your name will be placed here. Welcome to the hall of fame :)
+## Contributing
+Make a pull request and make clear what changes have been made and which bugs persist. Do not introduce bugs, be proactive!
 
 ## Acknowledgments
 * Regular C, Java and GO
