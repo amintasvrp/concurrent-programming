@@ -1,6 +1,6 @@
 # Concurrent Programming Solutions
 
-This repository covers solutions to concurrent programming problems. Its development began during the Concurrent Programming course.
+This repository covers solutions to concurrent programming problems.
 
 ## List of Problems
 
