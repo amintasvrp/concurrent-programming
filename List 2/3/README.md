@@ -14,7 +14,7 @@ To develop the experiment, we designed a task that should be implemented in both
 
 [Click here to see the Java Class execution](./RunCounter.java)
 
-Both the `go` implementation and the` java` implementation take as argument the number of threads / goroutines that must be created to perform the task.
+Both the `go` implementation and the `java` implementation take as argument the number of threads / goroutines that must be created to perform the task.
 
 #### Test Execution
 
@@ -40,7 +40,7 @@ The graph below shows the maximum memory consumption **in Kilobytes** of each ex
 In it we can observe that, as expected, the memory consumption of Goroutines is always lower than the Java Threads.
 One thing that catches our attention and that can be seen in the graph is that the Java Threads maximum memory consumption remains constant for a certain range of Threads, unlike Goroutines, where the maximum consumption grows linearly as its numbers increase.
 
-The graph below shows the average memory consumption **in Kilobytes** for each run. The average was calculated by collecting the amount of memory consumed every second of execution.[Também é possível ver o gráfico com mais qualidade no Flourish](https://public.flourish.studio/visualisation/460238/).
+The graph below shows the average memory consumption **in Kilobytes** for each run. The average was calculated by collecting the amount of memory consumed every second of execution.[You can also view the higher quality chart on Flourish](https://public.flourish.studio/visualisation/460238/).
 
 <p align="center">
   <img src="./outputs/Threads%20vs%20Goroutines%20-%20Consumo%20de%20memoria%20medio@2x.png">
@@ -51,7 +51,7 @@ Even more asymmetrically, it is possible to observe in this graph the same patte
 
 #### Scatter Observed in Memory Cost per Thread / Goroutine
 
-The graph below shows the dispersion of memory consumption ** (in Kilobytes) ** by Thread / Goroutine while running the experiment.[Também é possível ver o gráfico com mais qualidade no Flourish](https://public.flourish.studio/visualisation/460267/).The y axis is in logarithmic scale for easy viewing.
+The graph below shows the dispersion of memory consumption ** (in Kilobytes) ** by Thread / Goroutine while running the experiment.[You can also view the higher quality chart on Flourish](https://public.flourish.studio/visualisation/460267/).The y axis is in logarithmic scale for easy viewing.
 
 ![](./outputs/Gráfico%20de%20dispersão%20do%20custo%20de%20memória%20por%20thread_goroutine@2x.png)
 
