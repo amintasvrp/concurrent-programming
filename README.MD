@@ -18,8 +18,6 @@ This repository covers solutions to concurrent programming problems.
 ## Contributing
 Make a pull request and make clear what changes have been made and which bugs persist. Do not introduce bugs, be proactive!
 
-## Acknowledgments
-* Regular C, Java and GO
-* Knowledge about Concurrent Programming
-* Knowledge about Data Science (not required, but desirable)
-* Willingness to learn, research and develop (no laziness!)
+## Licenses
+* **MIT License** - [*Ver detalhes*](./LICENSE.txt)
+
